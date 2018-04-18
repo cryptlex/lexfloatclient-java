@@ -27,11 +27,26 @@ public class LexFloatClientException extends Exception
         switch (errorCode)
         {
 
-            case LF_E_INET:
-                message = "Failed to connect to the server due to network error.";
+            case LF_E_PRODUCT_ID:
+                message = "The product id is incorrect.";
                 break;
             case LF_E_CALLBACK:
                 message = "Invalid or missing callback function.";
+                break;
+            case LF_E_HANDLE:
+                message = "Invalid handle.";
+                break;
+            case LF_E_SERVER_ADDRESS:
+                message = "Missing or invalid server address.";
+                break;
+            case LF_E_SERVER_TIME:
+                message = "System time on server machine has been tampered with. Ensure your date and time settings are correct on the server machine.";
+                break;
+            case LF_E_TIME:
+                message = "The system time has been tampered with. Ensure your date and time settings are correct.";
+                break;
+            case LF_E_INET:
+                message = "Failed to connect to the server due to network error.";
                 break;
             case LF_E_NO_FREE_LICENSE:
                 message = "No free license is available.";
@@ -39,41 +54,23 @@ public class LexFloatClientException extends Exception
             case LF_E_LICENSE_EXISTS:
                 message = "License has already been leased.";
                 break;
-            case LF_E_HANDLE:
-                message = "Invalid handle.";
-                break;
             case LF_E_LICENSE_EXPIRED:
-                message = "License lease has expired.";
+                message = "License lease has expired. This happens when the request to refresh the license fails due to license been taken up by some other client.";
                 break;
             case LF_E_LICENSE_EXPIRED_INET:
-                message = "License lease has expired due to network error.";
-                break;
-            case LF_E_SERVER_ADDRESS:
-                message = "Missing server address.";
-                break;
-            case LF_E_PFILE:
-                message = "Invalid or corrupted product file.";
-                break;
-            case LF_E_FPATH:
-                message = "Invalid product file path.";
-                break;
-            case LF_E_PRODUCT_VERSION:
-                message = "The version GUID of the client and server don't match.";
-                break;
-            case LF_E_GUID:
-                message = "The version GUID doesn't match that of the product file.";
-                break;
-            case LF_E_SERVER_TIME:
-                message = "System time on Server Machine has been tampered with.";
-                break;
-            case LF_E_TIME:
-                message = "The system time has been tampered with. Ensure your date and time settings are correct.";
-                break;
-            case LF_E_CUSTOM_FIELD_ID:
-                message = "Invalid custom field id.";
+                message = "License lease has expired due to network error. This happens when the request to refresh the license fails due to network error.";
                 break;
             case LF_E_BUFFER_SIZE:
                 message = "The buffer size was smaller than required.";
+                break;
+            case LF_E_METADATA_KEY_NOT_FOUND:
+                message = "The metadata key does not exist.";
+                break;
+            case LF_E_SERVER:
+                message = "Server error.";
+                break;
+            case LF_E_CLIENT:
+                message = "Client error.";
                 break;
             default:
                 message = "Unknown error!";
@@ -83,87 +80,94 @@ public class LexFloatClientException extends Exception
     }
 
     /**
-     * Failed to connect to the server due to network error.
+     * Success code.
      */
-    public static final int LF_E_INET = 0x02;
+    public static final int LF_OK = 0;
+    
+    /**
+     *Failure code.
+     */
+    public static final int LF_FAIL = 1;
+
+    /**
+     * The product id is incorrect.
+     */
+    public static final int LF_E_PRODUCT_ID = 40;
 
     /**
      * Invalid or missing callback function.
      */
-    public static final int LF_E_CALLBACK = 0x03;
-
-    /**
-     * No free license is available
-     */
-    public static final int LF_E_NO_FREE_LICENSE = 0x04;
-
-    /**
-     * License has already been leased.
-     */
-    public static final int LF_E_LICENSE_EXISTS = 0x05;
+    public static final int LF_E_CALLBACK = 41;
 
     /**
      * Invalid handle.
      */
-    public static final int LF_E_HANDLE = 0x06;
+    public static final int LF_E_HANDLE = 42;
 
     /**
-     * License lease has expired. This happens when the request to refresh the
-     * license fails due to license been taken up by some other client.
+     * Missing or invalid server address.
      */
-    public static final int LF_E_LICENSE_EXPIRED = 0x07;
+    public static final int LF_E_SERVER_ADDRESS = 43;
 
     /**
-     * License lease has expired due to network error. This happens when the
-     * request to refresh the license fails due to network error.
+     * System time on Server Machine has been tampered with. Ensure
+     * your date and time settings are correct on the server machine.
      */
-    public static final int LF_E_LICENSE_EXPIRED_INET = 0x08;
+    public static final int LF_E_SERVER_TIME = 44;
 
     /**
-     * Missing server address.
+     * The system time has been tampered with. Ensure your date
+     * and time settings are correct.
      */
-    public static final int LF_E_SERVER_ADDRESS = 0x09;
+    public static final int LF_E_TIME = 45;
 
     /**
-     * Invalid or corrupted product file.
+     * Failed to connect to the server due to network error.
      */
-    public static final int LF_E_PFILE = 0x0A;
+    public static final int LF_E_INET = 46;
 
     /**
-     * Invalid product file path.
+     * No free license is available
      */
-    public static final int LF_E_FPATH = 0x0B;
+    public static final int LF_E_NO_FREE_LICENSE = 47;
 
     /**
-     * The version GUID of the client and server don't match.
+     * License has already been leased.
      */
-    public static final int LF_E_PRODUCT_VERSION = 0x0C;
+    public static final int LF_E_LICENSE_EXISTS = 48;
 
     /**
-     * The version GUID doesn't match that of the product file.
+     * License lease has expired. This happens when the
+     * request to refresh the license fails due to license been taken
+     * up by some other client.
      */
-    public static final int LF_E_GUID = 0x0D;
+    public static final int LF_E_LICENSE_EXPIRED = 49;
 
     /**
-     * System time on Server Machine has been tampered with. Ensure your date
-     * and time settings are correct on the server machine.
+     * License lease has expired due to network error. This
+     * happens when the request to refresh the license fails due to
+     * network error.
      */
-    public static final int LF_E_SERVER_TIME = 0x0E;
-
-    /**
-     * The system time has been tampered with. Ensure your date and time
-     * settings are correct.
-     */
-    public static final int LF_E_TIME = 0x10;
-
-    /**
-     * Invalid custom field id.
-     */
-    public static final int LF_E_CUSTOM_FIELD_ID = 0x11;
+    public static final int LF_E_LICENSE_EXPIRED_INET = 50;
 
     /**
      * The buffer size was smaller than required.
      */
-    public static final int LF_E_BUFFER_SIZE = 0x12;
+    public static final int LF_E_BUFFER_SIZE = 51;
+
+    /**
+     * The metadata key does not exist.
+     */
+    public static final int LF_E_METADATA_KEY_NOT_FOUND = 52;
+
+    /**
+     * Server error.
+     */
+    public static final int LF_E_SERVER = 70;
+
+    /**
+     * Client error.
+     */
+    public static final int LF_E_CLIENT = 71;
 
 }

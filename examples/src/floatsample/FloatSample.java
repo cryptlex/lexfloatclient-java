@@ -43,10 +43,9 @@ public class FloatSample
         String path = System.getProperty("user.dir") + File.separator +"Product.dat";
         try
         {
-            LexFloatClient.SetProductFile(path);
             CallbackEventListener eventListener = new CallbackEventListener();
             LexFloatClient floatClient = new LexFloatClient();
-            floatClient.SetVersionGUID("59A44CE9-5415-8CF3-BD54-EA73A64E9A1B");
+            floatClient.SetProductId("PASTE_YOUR_PRODUCT_ID");
             floatClient.SetFloatServer("localhost", (short) 8090);
             floatClient.AddLicenseCallbackListener(eventListener);
             floatClient.RequestLicense();

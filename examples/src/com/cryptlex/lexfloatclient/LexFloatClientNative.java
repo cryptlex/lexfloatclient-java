@@ -51,13 +51,9 @@ public class LexFloatClientNative implements Library
         void invoke(int status);
     }
 
-    public static native int SetProductFile(String filePath);
+    public static native int GetHandle(String productId, IntByReference handle);
 
-    public static native int SetProductFile(WString filePath);
-
-    public static native int GetHandle(String versionGUID, IntByReference handle);
-
-    public static native int GetHandle(WString versionGUID, IntByReference handle);
+    public static native int GetHandle(WString productId, IntByReference handle);
 
     public static native int SetFloatServer(int handle, String hostAddress, short port);
 
@@ -71,13 +67,13 @@ public class LexFloatClientNative implements Library
 
     public static native int HasLicense(int handle);
 
-    public static native int GetCustomLicenseField(int handle, String fieldId, ByteBuffer fieldValue, int length);
+    public static native int GetLicenseMetadata(int handle, String key, ByteBuffer value, int length);
 
-    public static native int GetCustomLicenseField(int handle, WString fieldId, CharBuffer fieldValue, int length);
+    public static native int GetLicenseMetadata(int handle, WString key, CharBuffer value, int length);
 
-    public static native int FindHandle(String versionGUID, IntByReference handle);
+    public static native int FindHandle(String productId, IntByReference handle);
 
-    public static native int FindHandle(WString versionGUID, IntByReference handle);
+    public static native int FindHandle(WString productId, IntByReference handle);
 
     public static native int GlobalCleanUp();
 

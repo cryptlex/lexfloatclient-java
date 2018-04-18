@@ -16,7 +16,7 @@ public class LexFloatClient
 
     private static final int LF_FAIL = 0x01;
 
-    private String vGUID = null;
+    private String productId = null;
 
     private int handle = 0;
 
@@ -25,46 +25,25 @@ public class LexFloatClient
     private List<LicenseCallbackEvent> listeners = null;
 
     /**
-     * Sets the version GUID of your application.<p>
+     * Sets the product id of your application.<p>
      * </p>
      *
-     * @param versionGUID the unique version GUID of your application as
-     * mentioned on the product version page of your application in the
+     * @param productId the unique product id of your application as
+     * mentioned on the product page of your application in the
      * dashboard.
      * @throws LexFloatClientException
      */
-    public void SetVersionGUID(String versionGUID) throws LexFloatClientException
+    public void SetProductId(String productId) throws LexFloatClientException
     {
         int status;
         IntByReference handleRef = new IntByReference(0);
-        status = Platform.isWindows() ? LexFloatClientNative.GetHandle(new WString(versionGUID), handleRef) : LexFloatClientNative.GetHandle(versionGUID, handleRef);
+        status = Platform.isWindows() ? LexFloatClientNative.GetHandle(new WString(productId), handleRef) : LexFloatClientNative.GetHandle(productId, handleRef);
         if (LF_OK != status)
         {
             throw new LexFloatClientException(status);
         }
         this.handle = handleRef.getValue();
-        this.vGUID = versionGUID;
-    }
-
-    /**
-     * Sets the path of the Product.dat file. This should be used if your
-     * application and Product.dat file are in different folders or you have
-     * renamed the Product.dat file.<p>
-     * </p>
-     * If this function is used, it must be called on every start of your
-     * program before any other functions are called.
-     *
-     * @param filePath path of the product file (Product.dat)
-     * @throws LexFloatClientException
-     */
-    public static void SetProductFile(String filePath) throws LexFloatClientException
-    {
-        int status;
-        status = Platform.isWindows() ? LexFloatClientNative.SetProductFile(new WString(filePath)) : LexFloatClientNative.SetProductFile(filePath);
-        if (LF_OK != status)
-        {
-            throw new LexFloatClientException(status);
-        }
+        this.productId = productId;
     }
 
     /**
@@ -183,31 +162,31 @@ public class LexFloatClient
     }
 
     /**
-     * Get the value of the custom field associated with the float server
+     * Get the value of the license metadata field associated with the float server key.
      * key.<p>
      * </p>
      *
-     * @param fieldId id of the custom field whose value you want to get
-     * @return Returns the custom field value
+     * @param key key of the metadata field whose value you want to get
+     * @return Returns the metadat key value
      * @throws LexFloatClientException
      * @throws UnsupportedEncodingException
      */
-    public String GetCustomLicenseField(String fieldId) throws LexFloatClientException, UnsupportedEncodingException
+    public String GetLicenseMetadata(String key) throws LexFloatClientException, UnsupportedEncodingException
     {
 
         int status;
         if (Platform.isWindows())
         {
             CharBuffer buffer = CharBuffer.allocate(256);
-            status = LexFloatClientNative.GetCustomLicenseField(this.handle, new WString(fieldId), buffer, 256);
+            status = LexFloatClientNative.GetLicenseMetadata(this.handle, new WString(key), buffer, 256);
             if (LF_OK == status)
             {
                 return buffer.toString().trim();
             }
         } else
         {
-            ByteBuffer buffer = ByteBuffer.allocate(30);
-            status = LexFloatClientNative.GetCustomLicenseField(this.handle, fieldId, buffer, 256);
+            ByteBuffer buffer = ByteBuffer.allocate(256);
+            status = LexFloatClientNative.GetLicenseMetadata(this.handle, key, buffer, 256);
             if (LF_OK == status)
             {
                 return new String(buffer.array(), "UTF-8");
@@ -218,13 +197,13 @@ public class LexFloatClient
     }
 
     /**
-     * Gets the version GUID
+     * Gets the product id
      *
-     * @return Returns the version GUID
+     * @return Returns the product id
      */
-    public String GetVersionGUID()
+    public String GetProductId()
     {
-        return this.vGUID;
+        return this.productId;
     }
 
     /**
