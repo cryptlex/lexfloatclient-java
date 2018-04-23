@@ -39,8 +39,6 @@ public class FloatSample
 
     public static void main(String[] args)
     {
-
-        String path = System.getProperty("user.dir") + File.separator +"Product.dat";
         try
         {
             CallbackEventListener eventListener = new CallbackEventListener();
