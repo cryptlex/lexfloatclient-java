@@ -9,210 +9,215 @@ import com.sun.jna.ptr.IntByReference;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LexFloatClient
-{
-
-    private static final int LF_OK = 0x00;
-
-    private static final int LF_FAIL = 0x01;
-
-    private String productId = null;
-
-    private int handle = 0;
-
-    private LexFloatClientNative.CallbackType privCallback = null;
-
-    private List<LicenseCallbackEvent> listeners = null;
+public class LexFloatClient {
+    private static LexFloatClientNative.CallbackType privateCallback = null;
+    private static List<LicenseCallbackEvent> listeners = null;
 
     /**
-     * Sets the product id of your application.<p>
-     * </p>
-     *
-     * @param productId the unique product id of your application as
-     * mentioned on the product page of your application in the
-     * dashboard.
-     * @throws LexFloatClientException
+     * Success code.
      */
-    public void SetProductId(String productId) throws LexFloatClientException
-    {
-        int status;
-        IntByReference handleRef = new IntByReference(0);
-        status = Platform.isWindows() ? LexFloatClientNative.GetHandle(new WString(productId), handleRef) : LexFloatClientNative.GetHandle(productId, handleRef);
-        if (LF_OK != status)
-        {
-            throw new LexFloatClientException(status);
-        }
-        this.handle = handleRef.getValue();
-        this.productId = productId;
-    }
+    public static final int LF_OK = 0;
 
     /**
-     * Sets the network address of the LexFloatServer.<p>
+     * Failure code.
+     */
+    public static final int LF_FAIL = 1;
+
+    /**
+     * Sets the product id of your application.
+     * <p>
      * </p>
      *
-     * @param hostAddress hostname or the IP address of the LexFloatServer
-     * @param port port of the LexFloatServer
+     * @param productId the unique product id of your application as mentioned on
+     *                  the product page of your application in the dashboard.
      * @throws LexFloatClientException
      */
-    public void SetFloatServer(String hostAddress, short port) throws LexFloatClientException
-    {
+    public static void SetHostProductId(String productId) throws LexFloatClientException {
         int status;
-        status = Platform.isWindows() ? LexFloatClientNative.SetFloatServer(this.handle, new WString(hostAddress), port) : LexFloatClientNative.SetFloatServer(this.handle, hostAddress, port);
-        if (LF_OK != status)
-        {
+        status = Platform.isWindows() ? LexFloatClientNative.SetHostProductId(new WString(productId))
+                : LexFloatClientNative.SetHostProductId(productId);
+        if (LF_OK != status) {
             throw new LexFloatClientException(status);
         }
     }
 
     /**
-     * Sets refresh license callback event listener function.<br>
-     * Whenever the lease expires, a refresh lease request is sent to the
-     * server. If the lease fails to refresh, event listener function gets
-     * invoked with the following status error codes: LF_E_LICENSE_EXPIRED,
-     * LF_E_LICENSE_EXPIRED_INET, LF_E_SERVER_TIME, LF_E_TIME<p>
+     * Sets the network address of the LexFloatServer.<br>
+     * The url format should be: http://[ip or hostname]:[port]
+     * </p>
+     *
+     * @param hostUrl url string having the correct format
+     * @throws LexFloatClientException
+     */
+    public static void SetHostUrl(String hostUrl) throws LexFloatClientException {
+        int status;
+        status = Platform.isWindows() ? LexFloatClientNative.SetHostUrl(new WString(hostUrl))
+                : LexFloatClientNative.SetHostUrl(hostUrl);
+        if (LF_OK != status) {
+            throw new LexFloatClientException(status);
+        }
+    }
+
+    /**
+     * Sets the renew license callback function.<br>
+     * Whenever the license lease is about to expire, a renew request is sent to the
+     * server. When the request completes, the license callback function gets
+     * invoked with one of the following status codes:<br>
+     * LF_OK, LF_E_INET, LF_E_LICENSE_EXPIRED_INET, LF_E_LICENSE_NOT_FOUND,
+     * LF_E_CLIENT, LF_E_IP, LF_E_SERVER, LF_E_TIME,
+     * LF_E_SERVER_LICENSE_NOT_ACTIVATED,LF_E_SERVER_TIME_MODIFIED,
+     * LF_E_SERVER_LICENSE_SUSPENDED, LF_E_SERVER_LICENSE_EXPIRED,
+     * LF_E_SERVER_LICENSE_GRACE_PERIOD_OVER
+     * <p>
      * </p>
      *
      * @param listener
      * @throws LexFloatClientException
      */
-    public void AddLicenseCallbackListener(LicenseCallbackEvent listener) throws LexFloatClientException
-    {
-        if (listeners == null)
-        {
+    public static void AddLicenseCallbackListener(LicenseCallbackEvent listener) throws LexFloatClientException {
+        if (listeners == null) {
             listeners = new ArrayList<>();
             listeners.add(listener);
         }
-        if (this.privCallback == null)
-        {
-            this.privCallback = new LexFloatClientNative.CallbackType()
-            {
-                public void invoke(int status)
-                {
+        if (privateCallback == null) {
+            privateCallback = new LexFloatClientNative.CallbackType() {
+                public void invoke(int status) {
                     // Notify everybody that may be interested.
-                    for (LicenseCallbackEvent event : listeners)
-                    {
+                    for (LicenseCallbackEvent event : listeners) {
                         event.LicenseCallback(status);
                     }
                 }
             };
             int status;
-            status = LexFloatClientNative.SetLicenseCallback(this.handle, this.privCallback);
-            if (LF_OK != status)
-            {
+            status = LexFloatClientNative.SetFloatingLicenseCallback(privateCallback);
+            if (LF_OK != status) {
                 throw new LexFloatClientException(status);
             }
         }
-
     }
 
     /**
-     * Sends the request to lease the license from the LexFloatServer.<p>
+     * Sets the floating client metadata.
+     * <p>
+     * </p>
+     * The metadata appears along with the license details of the license in
+     * LexFloatServer dashboard.
+     * <p>
      * </p>
      *
+     * @param key   string of maximum length 256 characters with utf-8 encoding.
+     *              encoding.
+     * @param value string of maximum length 256 characters with utf-8 encoding.
+     *              encoding.
      * @throws LexFloatClientException
      */
-    public void RequestLicense() throws LexFloatClientException
-    {
+    public static void SetFloatingClientMetadata(String key, String value) throws LexFloatClientException {
         int status;
-        status = LexFloatClientNative.RequestLicense(this.handle);
-        if (LF_OK != status)
-        {
+        status = Platform.isWindows()
+                ? LexFloatClientNative.SetFloatingClientMetadata(new WString(key), new WString(value))
+                : LexFloatClientNative.SetFloatingClientMetadata(key, value);
+        if (LF_OK != status) {
             throw new LexFloatClientException(status);
         }
     }
 
     /**
-     * Sends the request to drop the license from the LexFloatServer.<br>
+     * Get the value of the license metadata field associated with the
+     * LexFloatServer license. key.
+     * <p>
+     * </p>
+     *
+     * @param key key of the metadata field whose value you want to get
+     * @return Returns the metadata key value
+     * @throws LexFloatClientException
+     * @throws UnsupportedEncodingException
+     */
+    public String GetHostLicenseMetadata(String key) throws LexFloatClientException, UnsupportedEncodingException {
+        int status;
+        if (Platform.isWindows()) {
+            CharBuffer buffer = CharBuffer.allocate(256);
+            status = LexFloatClientNative.GetHostLicenseMetadata(new WString(key), buffer, 256);
+            if (LF_OK == status) {
+                return buffer.toString().trim();
+            }
+        } else {
+            ByteBuffer buffer = ByteBuffer.allocate(256);
+            status = LexFloatClientNative.GetHostLicenseMetadata(key, buffer, 256);
+            if (LF_OK == status) {
+                return new String(buffer.array(), "UTF-8");
+            }
+        }
+        throw new LexFloatClientException(status);
+    }
+
+    /**
+     * Gets the license expiry date timestamp of the LexFloatServer license.
+     *
+     * @return Returns the timestamp
+     * @throws LexFloatClientException
+     */
+    public static int GetHostLicenseExpiryDate() throws LexFloatClientException {
+        int status;
+        IntByReference expiryDate = new IntByReference(0);
+        status = LexFloatClientNative.GetHostLicenseExpiryDate(expiryDate);
+        switch (status) {
+        case LF_OK:
+            return expiryDate.getValue();
+        default:
+            throw new LexFloatClientException(status);
+        }
+    }
+
+    /**
+     * Sends the request to lease the license from the LexFloatServer.
+     * <p>
+     * </p>
+     *
+     * @throws LexFloatClientException
+     */
+    public static void RequestFloatingLicense() throws LexFloatClientException {
+        int status;
+        status = LexFloatClientNative.RequestFloatingLicense();
+        if (LF_OK != status) {
+            throw new LexFloatClientException(status);
+        }
+    }
+
+    /**
+     * Sends the request to the LexFloatServer to free the license.<br>
      * Call this function before you exit your application to prevent zombie
-     * licenses.<p>
+     * licenses.
+     * <p>
      * </p>
      *
      * @throws LexFloatClientException
      */
-    public void DropLicense() throws LexFloatClientException
-    {
+    public static void DropFloatingLicense() throws LexFloatClientException {
         int status;
-        status = LexFloatClientNative.DropLicense(this.handle);
-        if (LF_OK != status)
-        {
+        status = LexFloatClientNative.DropFloatingLicense();
+        if (LF_OK != status) {
             throw new LexFloatClientException(status);
         }
     }
 
     /**
-     * Checks whether any license has been leased or not.<p>
+     * Checks whether any license has been leased or not.
+     * <p>
      * </p>
      *
      * @return True or False
      * @throws LexFloatClientException
      */
-    public boolean HasLicense() throws LexFloatClientException
-    {
+    public boolean HasFloatingLicense() throws LexFloatClientException {
         int status;
-        status = LexFloatClientNative.RequestLicense(this.handle);
-        switch (status)
-        {
-            case LF_OK:
-                return true;
-            case LF_FAIL:
-                return false;
-            default:
-                throw new LexFloatClientException(status);
+        status = LexFloatClientNative.HasFloatingLicense();
+        switch (status) {
+        case LF_OK:
+            return true;
+        case LexFloatClientException.LF_E_NO_LICENSE:
+            return false;
+        default:
+            throw new LexFloatClientException(status);
         }
     }
-
-    /**
-     * Get the value of the license metadata field associated with the float server key.
-     * key.<p>
-     * </p>
-     *
-     * @param key key of the metadata field whose value you want to get
-     * @return Returns the metadat key value
-     * @throws LexFloatClientException
-     * @throws UnsupportedEncodingException
-     */
-    public String GetLicenseMetadata(String key) throws LexFloatClientException, UnsupportedEncodingException
-    {
-
-        int status;
-        if (Platform.isWindows())
-        {
-            CharBuffer buffer = CharBuffer.allocate(256);
-            status = LexFloatClientNative.GetLicenseMetadata(this.handle, new WString(key), buffer, 256);
-            if (LF_OK == status)
-            {
-                return buffer.toString().trim();
-            }
-        } else
-        {
-            ByteBuffer buffer = ByteBuffer.allocate(256);
-            status = LexFloatClientNative.GetLicenseMetadata(this.handle, key, buffer, 256);
-            if (LF_OK == status)
-            {
-                return new String(buffer.array(), "UTF-8");
-            }
-        }
-
-        throw new LexFloatClientException(status);
-    }
-
-    /**
-     * Gets the product id
-     *
-     * @return Returns the product id
-     */
-    public String GetProductId()
-    {
-        return this.productId;
-    }
-
-    /**
-     * Releases the resources acquired for sending network requests. Call this
-     * function before you exit your application.
-     */
-    public static void GlobalCleanUp()
-    {
-        LexFloatClientNative.GlobalCleanUp();
-    }
-
 }

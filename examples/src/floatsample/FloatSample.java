@@ -4,60 +4,48 @@ import com.cryptlex.lexfloatclient.LexFloatClient;
 import com.cryptlex.lexfloatclient.LicenseCallbackEvent;
 import com.cryptlex.lexfloatclient.LexFloatClientException;
 import java.io.IOException;
-import java.io.File;
-import java.io.UnsupportedEncodingException;
 
-class CallbackEventListener implements LicenseCallbackEvent
-{
+class CallbackEventListener implements LicenseCallbackEvent {
 
     @Override
-    public void LicenseCallback(int status)
-    {
-        switch (status)
-        {
-            case LexFloatClientException.LF_E_LICENSE_EXPIRED:
-                System.out.println("The lease expired before it could be renewed.");
-                break;
-            case LexFloatClientException.LF_E_LICENSE_EXPIRED_INET:
-                System.out.println("The lease expired due to network connection failure.");
-                break;
-            case LexFloatClientException.LF_E_SERVER_TIME:
-                System.out.println("The lease expired because Server System time was modified.");
-                break;
-            case LexFloatClientException.LF_E_TIME:
-                System.out.println("The lease expired because Client System time was modified.");
-                break;
-            default:
-                System.out.println("The lease expired due to some other reason.");
-                break;
+    public void LicenseCallback(int status) {
+        switch (status) {
+        case LexFloatClient.LF_OK:
+            System.out.println("The license lease has renewed successfully.");
+            break;
+        case LexFloatClientException.LF_E_LICENSE_NOT_FOUND:
+            System.out.println("The license expired before it could be renewed.");
+            break;
+        case LexFloatClientException.LF_E_LICENSE_EXPIRED_INET:
+            System.out.println("The license expired due to network connection failure.");
+            break;
+        default:
+            System.out.println("The license renew failed due to other reason. Error code: " + Integer.toString(status));
+            break;
         }
     }
 }
 
-public class FloatSample
-{
+public class FloatSample {
 
-    public static void main(String[] args)
-    {
-        try
-        {
+    public static void main(String[] args) {
+        try {
             CallbackEventListener eventListener = new CallbackEventListener();
-            LexFloatClient floatClient = new LexFloatClient();
-            floatClient.SetProductId("PASTE_YOUR_PRODUCT_ID");
-            floatClient.SetFloatServer("localhost", (short) 8090);
-            floatClient.AddLicenseCallbackListener(eventListener);
-            floatClient.RequestLicense();
-            System.out.println("Success! License Acquired");
+            LexFloatClient.SetHostProductId("0cbda839-a2a6-4525-903f-ba729f8c6757");
+            LexFloatClient.SetHostUrl("http://localhost:8090");
+            LexFloatClient.AddLicenseCallbackListener(eventListener);
+
+            LexFloatClient.RequestFloatingLicense();
+            System.out.println("Success! License acquired.");
+
             System.out.println("Press Enter to drop the license ...");
             System.in.read();
-            floatClient.DropLicense();   
-            System.out.println("Success! License Dropped");
-            LexFloatClient.GlobalCleanUp();
-        } catch (LexFloatClientException ex)
-        {
+            
+            LexFloatClient.DropFloatingLicense();
+            System.out.println("Success! License dropped successfully.");
+        } catch (LexFloatClientException ex) {
             System.out.println(ex.getCode() + ": " + ex.getMessage());
-        } catch (IOException ex)
-        {
+        } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
     }
