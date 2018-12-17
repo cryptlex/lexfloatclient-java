@@ -6,7 +6,6 @@ import com.cryptlex.lexfloatclient.LexFloatClientException;
 import java.io.IOException;
 
 class CallbackEventListener implements LicenseCallbackEvent {
-
     @Override
     public void LicenseCallback(int status) {
         switch (status) {
@@ -31,7 +30,7 @@ public class FloatSample {
     public static void main(String[] args) {
         try {
             CallbackEventListener eventListener = new CallbackEventListener();
-            LexFloatClient.SetHostProductId("0cbda839-a2a6-4525-903f-ba729f8c6757");
+            LexFloatClient.SetHostProductId("PASTE_PRODUCT_ID");
             LexFloatClient.SetHostUrl("http://localhost:8090");
             LexFloatClient.AddLicenseCallbackListener(eventListener);
 
@@ -40,7 +39,7 @@ public class FloatSample {
 
             System.out.println("Press Enter to drop the license ...");
             System.in.read();
-            
+
             LexFloatClient.DropFloatingLicense();
             System.out.println("Success! License dropped successfully.");
         } catch (LexFloatClientException ex) {
