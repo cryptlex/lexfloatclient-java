@@ -61,12 +61,32 @@ public class LexFloatClientNative implements Library {
     public static native int GetHostLicenseMetadata(String key, ByteBuffer value, int length);
 
     public static native int GetHostLicenseMetadata(WString key, CharBuffer value, int length);
+    
+    public static native int GetHostLicenseMeterAttribute(String name, IntByReference allowedUses, IntByReference totalUses);
+    
+    public static native int GetHostLicenseMeterAttribute(WString name, IntByReference allowedUses, IntByReference totalUses);
 
     public static native int GetHostLicenseExpiryDate(IntByReference expiryDate);
+    
+    public static native int GetFloatingClientMeterAttributeUses(String name, IntByReference uses);
+    
+    public static native int GetFloatingClientMeterAttributeUses(WString name, IntByReference uses);
 
     public static native int RequestFloatingLicense();
 
     public static native int DropFloatingLicense();
 
     public static native int HasFloatingLicense();
+    
+    public static native int IncrementFloatingClientMeterAttributeUses(String name, int increment);
+    
+    public static native int IncrementFloatingClientMeterAttributeUses(WString name, int increment);
+    
+    public static native int DecrementFloatingClientMeterAttributeUses(String name, int decrement);
+    
+    public static native int DecrementFloatingClientMeterAttributeUses(WString name, int decrement);
+    
+    public static native int ResetFloatingClientMeterAttributeUses(String name);
+    
+    public static native int ResetFloatingClientMeterAttributeUses(WString name);
 }

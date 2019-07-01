@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LexFloatClient {
+
     private static LexFloatClientNative.CallbackType privateCallback = null;
     private static List<LicenseCallbackEvent> listeners = null;
 
@@ -28,8 +29,8 @@ public class LexFloatClient {
      * <p>
      * </p>
      *
-     * @param productId the unique product id of your application as mentioned on
-     *                  the product page of your application in the dashboard.
+     * @param productId the unique product id of your application as mentioned
+     * on the product page of your application in the dashboard.
      * @throws LexFloatClientException
      */
     public static void SetHostProductId(String productId) throws LexFloatClientException {
@@ -60,9 +61,9 @@ public class LexFloatClient {
 
     /**
      * Sets the renew license callback function.<br>
-     * Whenever the license lease is about to expire, a renew request is sent to the
-     * server. When the request completes, the license callback function gets
-     * invoked with one of the following status codes:<br>
+     * Whenever the license lease is about to expire, a renew request is sent to
+     * the server. When the request completes, the license callback function
+     * gets invoked with one of the following status codes:<br>
      * LF_OK, LF_E_INET, LF_E_LICENSE_EXPIRED_INET, LF_E_LICENSE_NOT_FOUND,
      * LF_E_CLIENT, LF_E_IP, LF_E_SERVER, LF_E_TIME,
      * LF_E_SERVER_LICENSE_NOT_ACTIVATED,LF_E_SERVER_TIME_MODIFIED,
@@ -105,10 +106,10 @@ public class LexFloatClient {
      * <p>
      * </p>
      *
-     * @param key   string of maximum length 256 characters with utf-8 encoding.
-     *              encoding.
+     * @param key string of maximum length 256 characters with utf-8 encoding.
+     * encoding.
      * @param value string of maximum length 256 characters with utf-8 encoding.
-     *              encoding.
+     * encoding.
      * @throws LexFloatClientException
      */
     public static void SetFloatingClientMetadata(String key, String value) throws LexFloatClientException {
@@ -149,6 +150,34 @@ public class LexFloatClient {
         }
         throw new LexFloatClientException(status);
     }
+    
+    /**
+     * Gets the license meter attribute allowed uses and total uses associated 
+     * with the LexFloatServer license.
+     *
+     * @param name name of the meter attribute
+     * @return Returns the values of meter attribute allowed and total uses.
+     * @throws LexFloatClientException
+     * @throws UnsupportedEncodingException
+     */
+    public static LicenseMeterAttribute GetHostLicenseMeterAttribute(String name) throws LexFloatClientException, UnsupportedEncodingException {
+        int status;
+        IntByReference allowedUses = new IntByReference(0);
+        IntByReference totalUses = new IntByReference(0);
+
+        if (Platform.isWindows()) {
+            status = LexFloatClientNative.GetHostLicenseMeterAttribute(new WString(name), allowedUses, totalUses);
+            if (LF_OK == status) {
+                return new LicenseMeterAttribute(name, allowedUses.getValue(), totalUses.getValue());
+            }
+        } else {
+            status = LexFloatClientNative.GetHostLicenseMeterAttribute(name, allowedUses, totalUses);
+            if (LF_OK == status) {
+                return new LicenseMeterAttribute(name, allowedUses.getValue(), totalUses.getValue());
+            }
+        }
+        throw new LexFloatClientException(status);
+    }
 
     /**
      * Gets the license expiry date timestamp of the LexFloatServer license.
@@ -161,11 +190,36 @@ public class LexFloatClient {
         IntByReference expiryDate = new IntByReference(0);
         status = LexFloatClientNative.GetHostLicenseExpiryDate(expiryDate);
         switch (status) {
-        case LF_OK:
-            return expiryDate.getValue();
-        default:
-            throw new LexFloatClientException(status);
+            case LF_OK:
+                return expiryDate.getValue();
+            default:
+                throw new LexFloatClientException(status);
         }
+    }
+
+    /**
+     * Gets the meter attribute uses consumed by the floating client.
+     *
+     * @param name name of the meter attribute
+     * @return Returns the value of meter attribute uses by the floating client.
+     * @throws LexFloatClientException
+     * @throws UnsupportedEncodingException
+     */
+    public static int GetFloatingClientMeterAttributeUses(String name) throws LexFloatClientException, UnsupportedEncodingException {
+        int status;
+        IntByReference uses = new IntByReference(0);
+        if (Platform.isWindows()) {
+            status = LexFloatClientNative.GetFloatingClientMeterAttributeUses(new WString(name), uses);
+            if (LF_OK == status) {
+                return uses.getValue();
+            }
+        } else {
+            status = LexFloatClientNative.GetFloatingClientMeterAttributeUses(name, uses);
+            if (LF_OK == status) {
+                return uses.getValue();
+            }
+        }
+        throw new LexFloatClientException(status);
     }
 
     /**
@@ -212,12 +266,80 @@ public class LexFloatClient {
         int status;
         status = LexFloatClientNative.HasFloatingLicense();
         switch (status) {
-        case LF_OK:
-            return true;
-        case LexFloatClientException.LF_E_NO_LICENSE:
-            return false;
-        default:
-            throw new LexFloatClientException(status);
+            case LF_OK:
+                return true;
+            case LexFloatClientException.LF_E_NO_LICENSE:
+                return false;
+            default:
+                throw new LexFloatClientException(status);
+        }
+    }
+
+    /**
+     * Increments the meter attribute uses of the floating client.
+     *
+     * @param name name of the meter attribute
+     * @param increment the increment value
+     * @throws LexFloatClientException
+     * @throws UnsupportedEncodingException
+     */
+    public static void IncrementFloatingClientMeterAttributeUses(String name, int increment) throws LexFloatClientException, UnsupportedEncodingException {
+        int status;
+        if (Platform.isWindows()) {
+            status = LexFloatClientNative.IncrementFloatingClientMeterAttributeUses(new WString(name), increment);
+            if (LF_OK != status) {
+                throw new LexFloatClientException(status);
+            }
+        } else {
+            status = LexFloatClientNative.IncrementFloatingClientMeterAttributeUses(name, increment);
+            if (LF_OK != status) {
+                throw new LexFloatClientException(status);
+            }
+        }
+    }
+
+    /**
+     * Decrements the meter attribute uses of the floating client.
+     *
+     * @param name name of the meter attribute
+     * @param decrement the decrement value
+     * @throws LexFloatClientException
+     * @throws UnsupportedEncodingException
+     */
+    public static void DecrementFloatingClientMeterAttributeUses(String name, int decrement) throws LexFloatClientException, UnsupportedEncodingException {
+        int status;
+        if (Platform.isWindows()) {
+            status = LexFloatClientNative.DecrementFloatingClientMeterAttributeUses(new WString(name), decrement);
+            if (LF_OK != status) {
+                throw new LexFloatClientException(status);
+            }
+        } else {
+            status = LexFloatClientNative.DecrementFloatingClientMeterAttributeUses(name, decrement);
+            if (LF_OK != status) {
+                throw new LexFloatClientException(status);
+            }
+        }
+    }
+
+    /**
+     * Resets the meter attribute uses of the floating client.
+     *
+     * @param name name of the meter attribute
+     * @throws LexFloatClientException
+     * @throws UnsupportedEncodingException
+     */
+    public static void ResetFloatingClientMeterAttributeUses(String name) throws LexFloatClientException, UnsupportedEncodingException {
+        int status;
+        if (Platform.isWindows()) {
+            status = LexFloatClientNative.ResetFloatingClientMeterAttributeUses(new WString(name));
+            if (LF_OK != status) {
+                throw new LexFloatClientException(status);
+            }
+        } else {
+            status = LexFloatClientNative.ResetFloatingClientMeterAttributeUses(name);
+            if (LF_OK != status) {
+                throw new LexFloatClientException(status);
+            }
         }
     }
 }

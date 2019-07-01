@@ -65,6 +65,12 @@ public class LexFloatClientException extends Exception {
         case LF_E_FLOATING_CLIENT_METADATA_LIMIT:
             message = "The floating client has reached it's metadata fields limit.";
             break;
+        case LF_E_METER_ATTRIBUTE_NOT_FOUND:
+            message = "The meter attribute does not exist.";
+            break;
+        case LF_E_METER_ATTRIBUTE_USES_LIMIT_REACHED:
+            message = "The meter attribute has reached it's usage limit.";
+            break;
         case LF_E_IP:
             message = "IP address is not allowed.";
             break;
@@ -216,6 +222,20 @@ public class LexFloatClientException extends Exception {
      * MESSAGE: The floating client has reached it's metadata fields limit.
      */
     public static final int LF_E_FLOATING_CLIENT_METADATA_LIMIT = 54;
+    
+     /*
+     * CODE: LF_E_METER_ATTRIBUTE_NOT_FOUND
+     * 
+     * MESSAGE: The meter attribute does not exist.
+     */
+    public static final int LF_E_METER_ATTRIBUTE_NOT_FOUND = 55;
+    
+     /*
+     * CODE: LF_E_METER_ATTRIBUTE_USES_LIMIT_REACHED
+     * 
+     * MESSAGE: The meter attribute has reached it's usage limit.
+     */
+    public static final int LF_E_METER_ATTRIBUTE_USES_LIMIT_REACHED = 56;
 
     /*
      * CODE: LF_E_IP
