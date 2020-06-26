@@ -124,7 +124,7 @@ public class LexFloatClient {
 
     /**
      * Get the value of the license metadata field associated with the
-     * LexFloatServer license. key.
+     * LexFloatServer license key.
      * <p>
      * </p>
      *
@@ -133,7 +133,7 @@ public class LexFloatClient {
      * @throws LexFloatClientException
      * @throws UnsupportedEncodingException
      */
-    public String GetHostLicenseMetadata(String key) throws LexFloatClientException, UnsupportedEncodingException {
+    public static String GetHostLicenseMetadata(String key) throws LexFloatClientException, UnsupportedEncodingException {
         int status;
         if (Platform.isWindows()) {
             CharBuffer buffer = CharBuffer.allocate(256);
@@ -262,7 +262,7 @@ public class LexFloatClient {
      * @return True or False
      * @throws LexFloatClientException
      */
-    public boolean HasFloatingLicense() throws LexFloatClientException {
+    public static boolean HasFloatingLicense() throws LexFloatClientException {
         int status;
         status = LexFloatClientNative.HasFloatingLicense();
         switch (status) {
