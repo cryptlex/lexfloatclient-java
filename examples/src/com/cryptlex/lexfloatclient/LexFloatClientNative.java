@@ -62,9 +62,9 @@ public class LexFloatClientNative implements Library {
 
     public static native int GetHostLicenseMetadata(WString key, CharBuffer value, int length);
     
-    public static native int GetHostLicenseMeterAttribute(String name, IntByReference allowedUses, IntByReference totalUses);
+    public static native int GetHostLicenseMeterAttribute(String name, IntByReference allowedUses, IntByReference totalUses, IntByReference grossUses);
     
-    public static native int GetHostLicenseMeterAttribute(WString name, IntByReference allowedUses, IntByReference totalUses);
+    public static native int GetHostLicenseMeterAttribute(WString name, IntByReference allowedUses, IntByReference totalUses, IntByReference grossUses);
 
     public static native int GetHostLicenseExpiryDate(IntByReference expiryDate);
     

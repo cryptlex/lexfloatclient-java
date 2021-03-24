@@ -164,16 +164,17 @@ public class LexFloatClient {
         int status;
         IntByReference allowedUses = new IntByReference(0);
         IntByReference totalUses = new IntByReference(0);
+        IntByReference grossUses = new IntByReference(0);
 
         if (Platform.isWindows()) {
-            status = LexFloatClientNative.GetHostLicenseMeterAttribute(new WString(name), allowedUses, totalUses);
+            status = LexFloatClientNative.GetHostLicenseMeterAttribute(new WString(name), allowedUses, totalUses, grossUses);
             if (LF_OK == status) {
-                return new LicenseMeterAttribute(name, allowedUses.getValue(), totalUses.getValue());
+                return new LicenseMeterAttribute(name, allowedUses.getValue(), totalUses.getValue(), grossUses.getValue());
             }
         } else {
-            status = LexFloatClientNative.GetHostLicenseMeterAttribute(name, allowedUses, totalUses);
+            status = LexFloatClientNative.GetHostLicenseMeterAttribute(name, allowedUses, totalUses, grossUses);
             if (LF_OK == status) {
-                return new LicenseMeterAttribute(name, allowedUses.getValue(), totalUses.getValue());
+                return new LicenseMeterAttribute(name, allowedUses.getValue(), totalUses.getValue(), grossUses.getValue());
             }
         }
         throw new LexFloatClientException(status);
