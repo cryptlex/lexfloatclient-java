@@ -1,4 +1,4 @@
-[![Maven Publish](https://github.com/cryptlex/lexfloatclient-java/actions/workflows/maven-publish.yml/badge.svg)](https://github.com/cryptlex/lexfloatclient-java/actions/workflows/maven-publish.yml)
+[![Maven Central](https://img.shields.io/maven-central/v/com.cryptlex.lexfloatclient/lexfloatclient.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22com.cryptlex.lexfloatclient%22%20AND%20a:%22lexfloatclient%22)
 
 # lexfloatclient-java
 
