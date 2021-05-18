@@ -1,4 +1,4 @@
-package floatsample;
+package com.cryptlex.floatsample;
 
 import com.cryptlex.lexfloatclient.LexFloatClient;
 import com.cryptlex.lexfloatclient.LicenseCallbackEvent;
@@ -50,3 +50,4 @@ public class FloatSample {
     }
 
 }
+
