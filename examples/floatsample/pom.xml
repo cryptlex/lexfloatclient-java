@@ -14,7 +14,7 @@
         <dependency>
             <groupId>com.cryptlex.lexfloatclient</groupId>
             <artifactId>lexfloatclient</artifactId>
-            <version>4.5.0</version>
+            <version>4.6.1</version>
         </dependency>
     </dependencies>
 </project>
