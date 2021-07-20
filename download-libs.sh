@@ -1,5 +1,5 @@
 BASE_URL=https://dl.cryptlex.com/downloads
-VERSION=v4.5.3
+VERSION="v4.6.0";
 
 mkdir -p tmp/windows
 curl -O ${BASE_URL}/${VERSION}/LexFloatClient-Win.zip
