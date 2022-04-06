@@ -35,6 +35,18 @@ public class LexFloatClientNative implements Library {
 
     public static native int SetFloatingClientMetadata(WString key, WString value);
 
+    public static native int GetProductVersionName(ByteBuffer name, int length);
+
+    public static native int GetProductVersionName(CharBuffer name, int length);
+    
+    public static native int GetProductVersionDisplayName(ByteBuffer name, int length);
+
+    public static native int GetProductVersionDisplayName(CharBuffer name, int length);
+    
+    public static native int GetProductVersionFeatureFlag(String name, IntByReference enabled, ByteBuffer data, int length);
+    
+    public static native int GetProductVersionFeatureFlag(WString name, IntByReference enabled, CharBuffer data, int length);
+
     public static native int GetHostLicenseMetadata(String key, ByteBuffer value, int length);
 
     public static native int GetHostLicenseMetadata(WString key, CharBuffer value, int length);

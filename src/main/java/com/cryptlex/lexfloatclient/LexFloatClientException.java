@@ -71,6 +71,12 @@ public class LexFloatClientException extends Exception {
         case LF_E_METER_ATTRIBUTE_USES_LIMIT_REACHED:
             message = "The meter attribute has reached it's usage limit.";
             break;
+        case LF_E_PRODUCT_VERSION_NOT_LINKED:
+            message = "No product version is linked with the license.";
+            break;
+        case LF_E_FEATURE_FLAG_NOT_FOUND:
+            message = "The product version feature flag does not exist.";
+            break;
         case LF_E_IP:
             message = "IP address is not allowed.";
             break;
