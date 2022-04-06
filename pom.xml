@@ -41,7 +41,7 @@
         <dependency>
             <groupId>net.java.dev.jna</groupId>
             <artifactId>jna</artifactId>
-            <version>5.8.0</version>
+            <version>5.10.0</version>
         </dependency>
     </dependencies>
 
@@ -128,7 +128,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.6</version>
+                        <version>3.0.1</version>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>
@@ -137,6 +137,7 @@
                                     <goal>sign</goal>
                                 </goals>
                                 <configuration>
+                                    <!-- Prevent `gpg` from using pinentry programs -->
                                     <gpgArguments>
                                         <arg>--pinentry-mode</arg>
                                         <arg>loopback</arg>
