@@ -173,7 +173,7 @@ public class LexFloatClient {
      * @throws LexFloatClientException
      * @throws UnsupportedEncodingException
      */
-     public static ProductVersionFeatureFlag GetHostProductVersionFeatureFlag(String name)
+     public static HostProductVersionFeatureFlag GetHostProductVersionFeatureFlag(String name)
             throws LexFloatClientException, UnsupportedEncodingException {
         int status;
         IntByReference enabled = new IntByReference(0);
@@ -181,13 +181,13 @@ public class LexFloatClient {
             CharBuffer buffer = CharBuffer.allocate(256);
             status = LexFloatClientNative.GetHostProductVersionFeatureFlag(new WString(name), enabled, buffer, 256);
             if (LF_OK == status) {
-                return new ProductVersionFeatureFlag(name, enabled.getValue() > 0, buffer.toString().trim());
+                return new HostProductVersionFeatureFlag(name, enabled.getValue() > 0, buffer.toString().trim());
             }
         } else {
             ByteBuffer buffer = ByteBuffer.allocate(256);
             status = LexFloatClientNative.GetHostProductVersionFeatureFlag(name, enabled, buffer, 256);
             if (LF_OK == status) {
-                return new ProductVersionFeatureFlag(name, enabled.getValue() > 0,
+                return new HostProductVersionFeatureFlag(name, enabled.getValue() > 0,
                         new String(buffer.array(), "UTF-8").trim());
             }
         }
@@ -231,7 +231,7 @@ public class LexFloatClient {
      * @throws LexFloatClientException
      * @throws UnsupportedEncodingException
      */
-    public static LicenseMeterAttribute GetHostLicenseMeterAttribute(String name) throws LexFloatClientException, UnsupportedEncodingException {
+    public static HostLicenseMeterAttribute GetHostLicenseMeterAttribute(String name) throws LexFloatClientException, UnsupportedEncodingException {
         int status;
         IntByReference allowedUses = new IntByReference(0);
         IntByReference totalUses = new IntByReference(0);
@@ -240,12 +240,12 @@ public class LexFloatClient {
         if (Platform.isWindows()) {
             status = LexFloatClientNative.GetHostLicenseMeterAttribute(new WString(name), allowedUses, totalUses, grossUses);
             if (LF_OK == status) {
-                return new LicenseMeterAttribute(name, allowedUses.getValue(), totalUses.getValue(), grossUses.getValue());
+                return new HostLicenseMeterAttribute(name, allowedUses.getValue(), totalUses.getValue(), grossUses.getValue());
             }
         } else {
             status = LexFloatClientNative.GetHostLicenseMeterAttribute(name, allowedUses, totalUses, grossUses);
             if (LF_OK == status) {
-                return new LicenseMeterAttribute(name, allowedUses.getValue(), totalUses.getValue(), grossUses.getValue());
+                return new HostLicenseMeterAttribute(name, allowedUses.getValue(), totalUses.getValue(), grossUses.getValue());
             }
         }
         throw new LexFloatClientException(status);

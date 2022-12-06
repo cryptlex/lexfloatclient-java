@@ -1,6 +1,6 @@
 package com.cryptlex.lexfloatclient;
 
-public class LicenseMeterAttribute {
+public class HostLicenseMeterAttribute {
 
     public String name;
 
@@ -10,7 +10,7 @@ public class LicenseMeterAttribute {
 
     public int grossUses;
 
-    public LicenseMeterAttribute(String name, int allowedUses, int totalUses, int grossUses) {
+    public HostLicenseMeterAttribute(String name, int allowedUses, int totalUses, int grossUses) {
         this.name = name;
         this.allowedUses = allowedUses;
         this.totalUses = totalUses;
