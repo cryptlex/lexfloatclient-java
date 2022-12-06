@@ -1,13 +1,13 @@
 package com.cryptlex.lexfloatclient;
 
-public class ProductVersionFeatureFlag {
+public class HostProductVersionFeatureFlag {
     public String name;
 
     public Boolean enabled;
 
     public String data;
 
-    public ProductVersionFeatureFlag(String name, Boolean enabled, String data) {
+    public HostProductVersionFeatureFlag(String name, Boolean enabled, String data) {
         this.name = name;
         this.enabled = enabled;
         this.data = data;
