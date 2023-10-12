@@ -113,6 +113,30 @@ public class LexFloatClient {
         }
     }
 
+    /**
+     * Gets the version of this library.
+     * 
+     * @return libraryVersion - Returns the library version.
+     * @throws LexFloatClientException
+     * @throws UnsupportedEncodingException
+     */
+    public static String GetFloatingClientLibraryVersion() throws LexFloatClientException, UnsupportedEncodingException {
+        int status;
+        if (Platform.isWindows()) {
+            CharBuffer buffer = CharBuffer.allocate(256);
+            status = LexFloatClientNative.GetFloatingClientLibraryVersion(buffer, 256);
+            if (LF_OK == status) {
+                return buffer.toString().trim();
+            }
+        } else {
+            ByteBuffer buffer = ByteBuffer.allocate(256);
+            status = LexFloatClientNative.GetFloatingClientLibraryVersion(buffer, 256);
+            if (LF_OK == status) {
+                return new String(buffer.array(), "UTF-8").trim();
+            }
+        }
+        throw new LexFloatClientException(status);
+    }
 
     /**
      * Gets the product version name.
