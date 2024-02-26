@@ -60,7 +60,7 @@ public class LexFloatClientException extends Exception {
             message = "Metadata key length is more than 256 characters.";
             break;
         case LF_E_METADATA_VALUE_LENGTH:
-            message = "Metadata value length is more than 256 characters.";
+            message = "Metadata value length is more than 4096 characters.";
             break;
         case LF_E_FLOATING_CLIENT_METADATA_LIMIT:
             message = "The floating client has reached it's metadata fields limit.";
@@ -218,7 +218,7 @@ public class LexFloatClientException extends Exception {
     /*
      * CODE: LF_E_METADATA_VALUE_LENGTH
      * 
-     * MESSAGE: Metadata value length is more than 256 characters.
+     * MESSAGE: Metadata value length is more than 4096 characters.
      */
     public static final int LF_E_METADATA_VALUE_LENGTH = 53;
 
