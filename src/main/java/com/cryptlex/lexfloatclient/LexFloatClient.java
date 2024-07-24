@@ -245,6 +245,32 @@ public class LexFloatClient {
         }
         throw new LexFloatClientException(status);
     }
+
+    /**
+     * Get the value of the license metadata field associated with the LexFloatServer license.
+     *
+     * @param key key of the metadata field whose value you want to get
+     * @return Returns the metadata key value
+     * @throws LexFloatClientException
+     * @throws UnsupportedEncodingException
+     */
+    public static String GetFloatingClientMetadata(String key) throws LexFloatClientException, UnsupportedEncodingException {
+        int status;
+        if (Platform.isWindows()) {
+            CharBuffer buffer = CharBuffer.allocate(256);
+            status = LexFloatClientNative.GetFloatingClientMetadata(new WString(key), buffer, 256);
+            if (LF_OK == status) {
+                return buffer.toString().trim();
+            }
+        } else {
+            ByteBuffer buffer = ByteBuffer.allocate(256);
+            status = LexFloatClientNative.GetFloatingClientMetadata(key, buffer, 256);
+            if (LF_OK == status) {
+                return new String(buffer.array(), "UTF-8");
+            }
+        }
+        throw new LexFloatClientException(status);
+    }
     
     /**
      * Gets the license meter attribute allowed uses and total uses associated 
@@ -359,6 +385,8 @@ public class LexFloatClient {
             case LF_OK:
                 return true;
             case LexFloatClientException.LF_E_NO_LICENSE:
+                return false;
+            case LexFloatClientException.LF_FAIL:
                 return false;
             default:
                 throw new LexFloatClientException(status);
