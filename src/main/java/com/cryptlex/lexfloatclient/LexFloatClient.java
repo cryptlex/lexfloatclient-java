@@ -245,7 +245,7 @@ public class LexFloatClient {
         }
         throw new LexFloatClientException(status);
     }
-    
+
     /**
      * Gets the license meter attribute allowed uses and total uses associated 
      * with the LexFloatServer license.
@@ -359,6 +359,8 @@ public class LexFloatClient {
             case LF_OK:
                 return true;
             case LexFloatClientException.LF_E_NO_LICENSE:
+                return false;
+            case LexFloatClientException.LF_FAIL:
                 return false;
             default:
                 throw new LexFloatClientException(status);
