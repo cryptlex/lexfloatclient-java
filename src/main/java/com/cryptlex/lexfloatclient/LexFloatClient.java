@@ -294,6 +294,31 @@ public class LexFloatClient {
     }
 
     /**
+     * Gets the mode of the floating license (online or offline).
+     * 
+     * @return mode - Returns the floating license mode.
+     * @throws LexFloatClientException
+     * @throws UnsupportedEncodingException
+     */
+    public static String GetFloatingLicenseMode() throws LexFloatClientException, UnsupportedEncodingException {
+        int status;
+        if (Platform.isWindows()) {
+            CharBuffer buffer = CharBuffer.allocate(256);
+            status = LexFloatClientNative.GetFloatingLicenseMode(buffer, 256);
+            if (LF_OK == status) {
+                return buffer.toString().trim();
+            }
+        } else {
+            ByteBuffer buffer = ByteBuffer.allocate(256);
+            status = LexFloatClientNative.GetFloatingLicenseMode(buffer, 256);
+            if (LF_OK == status) {
+                return new String(buffer.array(), "UTF-8").trim();
+            }
+        }
+        throw new LexFloatClientException(status);
+    }
+
+    /**
      * Gets the meter attribute uses consumed by the floating client.
      *
      * @param name name of the meter attribute

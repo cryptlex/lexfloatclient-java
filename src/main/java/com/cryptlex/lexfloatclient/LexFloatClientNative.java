@@ -60,6 +60,10 @@ public class LexFloatClientNative implements Library {
     public static native int GetHostLicenseMeterAttribute(WString name, IntByReference allowedUses, IntByReference totalUses, IntByReference grossUses);
 
     public static native int GetHostLicenseExpiryDate(IntByReference expiryDate);
+
+    public static native int GetFloatingLicenseMode(ByteBuffer mode, int length);
+
+    public static native int GetFloatingLicenseMode(CharBuffer mode, int length);
     
     public static native int GetFloatingClientMeterAttributeUses(String name, IntByReference uses);
     
