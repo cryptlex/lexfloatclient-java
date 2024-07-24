@@ -20,6 +20,9 @@ public class LexFloatClientNative implements Library {
     public interface CallbackType extends Callback {
         void invoke(int status);
     }
+    /* Permission Flags */
+    public static final int LF_USER = 10;
+    public static final int LF_ALL_USERS = 11;
 
     public static native int SetHostProductId(String productId);
 
@@ -28,6 +31,8 @@ public class LexFloatClientNative implements Library {
     public static native int SetHostUrl(String hostUrl);
 
     public static native int SetHostUrl(WString hostUrl);
+
+    public static native int SetPermissionFlag(int flags);
 
     public static native int SetFloatingLicenseCallback(CallbackType callback);
 
