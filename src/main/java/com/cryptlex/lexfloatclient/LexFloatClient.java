@@ -26,8 +26,9 @@ public class LexFloatClient {
      */
     public static final int LF_FAIL = 1;
 
-    private static long toUnsignedLong(long value) {
-        return BigInteger.valueOf(value).and(BigInteger.valueOf(0xFFFFFFFFFFFFFFFFL)).longValue();
+    // Convert long to BigInteger to correctly handle unsigned 64-bit values
+    private static BigInteger toUnsignedBigInteger(long value) {
+        return BigInteger.valueOf(value).and(BigInteger.valueOf(0xFFFFFFFFFFFFFFFFL));
     }
 
     /**
@@ -264,18 +265,19 @@ public class LexFloatClient {
     public static HostLicenseMeterAttribute GetHostLicenseMeterAttribute(String name) throws LexFloatClientException, UnsupportedEncodingException {
         int status;
         LongByReference allowedUses = new LongByReference(0);
+        // These references can still hold the uint64_t values populated by the native function
         LongByReference totalUses = new LongByReference(0);
         LongByReference grossUses = new LongByReference(0);
 
         if (Platform.isWindows()) {
             status = LexFloatClientNative.GetHostLicenseMeterAttribute(new WString(name), allowedUses, totalUses, grossUses);
             if (LF_OK == status) {
-                return new HostLicenseMeterAttribute(name, allowedUses.getValue(), toUnsignedLong(totalUses.getValue()), toUnsignedLong(grossUses.getValue()));
+                return new HostLicenseMeterAttribute(name, allowedUses.getValue(), toUnsignedBigInteger(totalUses.getValue()), toUnsignedBigInteger(grossUses.getValue()));
             }
         } else {
             status = LexFloatClientNative.GetHostLicenseMeterAttribute(name, allowedUses, totalUses, grossUses);
             if (LF_OK == status) {
-                return new HostLicenseMeterAttribute(name, allowedUses.getValue(), toUnsignedLong(totalUses.getValue()), toUnsignedLong(grossUses.getValue()));
+                return new HostLicenseMeterAttribute(name, allowedUses.getValue(), toUnsignedBigInteger(totalUses.getValue()), toUnsignedBigInteger(grossUses.getValue()));
             }
         }
         throw new LexFloatClientException(status);

@@ -1,4 +1,5 @@
 package com.cryptlex.lexfloatclient;
+import java.math.BigInteger;
 
 public class HostLicenseMeterAttribute {
 
@@ -15,14 +16,14 @@ public class HostLicenseMeterAttribute {
     /**
      * The total uses of the meter attribute.
      */
-    public long totalUses;
+    public BigInteger totalUses;
 
     /**
      * The gross uses of the meter attribute. 
      */
-    public long grossUses;
+    public BigInteger grossUses;
 
-    public HostLicenseMeterAttribute(String name, long allowedUses, long totalUses, long grossUses) {
+    public HostLicenseMeterAttribute(String name, long allowedUses, BigInteger totalUses, BigInteger grossUses) {
         this.name = name;
         this.allowedUses = allowedUses;
         this.totalUses = totalUses;
