@@ -65,6 +65,8 @@ public class LexFloatClientNative implements Library {
     
     public static native int GetFloatingClientMeterAttributeUses(WString name, IntByReference uses);
 
+    public static native int RequestOfflineFloatingLicense(int leaseDuration);
+
     public static native int RequestFloatingLicense();
 
     public static native int DropFloatingLicense();
