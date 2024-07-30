@@ -2,15 +2,27 @@ package com.cryptlex.lexfloatclient;
 
 public class HostLicenseMeterAttribute {
 
+    /**
+     * The name of the meter attribute.
+     */
     public String name;
 
-    public int allowedUses;
+    /**
+     * The allowed uses of the meter attribute. A value of -1 indicates unlimited allowed uses.
+     */
+    public long allowedUses;
 
-    public int totalUses;
+    /**
+     * The total uses of the meter attribute.
+     */
+    public long totalUses;
 
-    public int grossUses;
+    /**
+     * The gross uses of the meter attribute. 
+     */
+    public long grossUses;
 
-    public HostLicenseMeterAttribute(String name, int allowedUses, int totalUses, int grossUses) {
+    public HostLicenseMeterAttribute(String name, long allowedUses, long totalUses, long grossUses) {
         this.name = name;
         this.allowedUses = allowedUses;
         this.totalUses = totalUses;

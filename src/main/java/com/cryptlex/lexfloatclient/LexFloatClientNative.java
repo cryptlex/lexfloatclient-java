@@ -8,6 +8,7 @@ import com.sun.jna.WString;
 import java.nio.CharBuffer;
 import java.nio.ByteBuffer;
 import com.sun.jna.ptr.IntByReference;
+import com.sun.jna.ptr.LongByReference;
 import com.sun.jna.Callback;
 import java.io.File;
 
@@ -55,9 +56,9 @@ public class LexFloatClientNative implements Library {
 
     public static native int GetHostLicenseMetadata(WString key, CharBuffer value, int length);
     
-    public static native int GetHostLicenseMeterAttribute(String name, IntByReference allowedUses, IntByReference totalUses, IntByReference grossUses);
+    public static native int GetHostLicenseMeterAttribute(String name, LongByReference allowedUses, LongByReference totalUses, LongByReference grossUses);
     
-    public static native int GetHostLicenseMeterAttribute(WString name, IntByReference allowedUses, IntByReference totalUses, IntByReference grossUses);
+    public static native int GetHostLicenseMeterAttribute(WString name, LongByReference allowedUses, LongByReference totalUses, LongByReference grossUses);
 
     public static native int GetHostLicenseExpiryDate(IntByReference expiryDate);
     
