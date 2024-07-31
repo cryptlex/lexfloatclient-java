@@ -6,6 +6,8 @@ import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.io.UnsupportedEncodingException;
 import com.sun.jna.ptr.IntByReference;
+import com.sun.jna.ptr.LongByReference;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +25,11 @@ public class LexFloatClient {
      * Failure code.
      */
     public static final int LF_FAIL = 1;
+
+    // Convert long to BigInteger to correctly handle unsigned 64-bit values
+    private static BigInteger toUnsignedBigInteger(long value) {
+        return BigInteger.valueOf(value).and(BigInteger.valueOf(0xFFFFFFFFFFFFFFFFL));
+    }
 
     /**
      * Sets the product id of your application
@@ -257,19 +264,20 @@ public class LexFloatClient {
      */
     public static HostLicenseMeterAttribute GetHostLicenseMeterAttribute(String name) throws LexFloatClientException, UnsupportedEncodingException {
         int status;
-        IntByReference allowedUses = new IntByReference(0);
-        IntByReference totalUses = new IntByReference(0);
-        IntByReference grossUses = new IntByReference(0);
+        LongByReference allowedUses = new LongByReference(0);
+        // These references can still hold the uint64_t values populated by the native function
+        LongByReference totalUses = new LongByReference(0);
+        LongByReference grossUses = new LongByReference(0);
 
         if (Platform.isWindows()) {
             status = LexFloatClientNative.GetHostLicenseMeterAttribute(new WString(name), allowedUses, totalUses, grossUses);
             if (LF_OK == status) {
-                return new HostLicenseMeterAttribute(name, allowedUses.getValue(), totalUses.getValue(), grossUses.getValue());
+                return new HostLicenseMeterAttribute(name, allowedUses.getValue(), toUnsignedBigInteger(totalUses.getValue()), toUnsignedBigInteger(grossUses.getValue()));
             }
         } else {
             status = LexFloatClientNative.GetHostLicenseMeterAttribute(name, allowedUses, totalUses, grossUses);
             if (LF_OK == status) {
-                return new HostLicenseMeterAttribute(name, allowedUses.getValue(), totalUses.getValue(), grossUses.getValue());
+                return new HostLicenseMeterAttribute(name, allowedUses.getValue(), toUnsignedBigInteger(totalUses.getValue()), toUnsignedBigInteger(grossUses.getValue()));
             }
         }
         throw new LexFloatClientException(status);
