@@ -1,4 +1,5 @@
 package com.cryptlex.lexfloatclient;
+
 public class LexFloatClientException extends Exception {
 
     int errorCode;
@@ -101,7 +102,7 @@ public class LexFloatClientException extends Exception {
             case LF_E_SERVER_LICENSE_GRACE_PERIOD_OVER:
                 message = "The grace period for server license is over.";
                 break;
-                
+            
             // Missing error codes
             case LF_E_SYSTEM_PERMISSION:
                 message = "Insufficient system permissions.";
@@ -124,14 +125,51 @@ public class LexFloatClientException extends Exception {
             case LF_E_MACHINE_FINGERPRINT:
                 message = "Machine fingerprint has changed since activation.";
                 break;
+            
+            case LF_E_SERVER_TIME_MODIFIED:
+                message = "System time on server has been tampered with.";
+                break;
+            case LF_E_SERVER_LICENSE_NOT_ACTIVATED:
+                message = "The server has not been activated using a license key.";
+                break;
+            case LF_E_SERVER_LICENSE_EXPIRED:
+                message = "The server license has expired.";
+                break;
+            case LF_E_SERVER_LICENSE_SUSPENDED:
+                message = "The server license has been suspended.";
+                break;
+            case LF_E_SERVER_LICENSE_GRACE_PERIOD_OVER:
+                message = "The grace period for server license is over.";
+                break;
 
+            // 70-series error codes
+            case LF_E_CLIENT:
+                message = "Client error.";
+                break;
+            case LF_E_SERVER:
+                message = "Server error.";
+                break;
+            case LF_E_SERVER_TIME_MODIFIED:
+                message = "System time on server has been tampered with.";
+                break;
+            case LF_E_SERVER_LICENSE_NOT_ACTIVATED:
+                message = "The server has not been activated using a license key.";
+                break;
+            case LF_E_SERVER_LICENSE_EXPIRED:
+                message = "The server license has expired.";
+                break;
+            case LF_E_SERVER_LICENSE_SUSPENDED:
+                message = "The server license has been suspended.";
+                break;
+            case LF_E_SERVER_LICENSE_GRACE_PERIOD_OVER:
+                message = "The grace period for server license is over.";
+                break;
+            
             default:
                 message = "Unknown error!";
         }
         return message;
     }
-
-    // Existing error codes
     public static final int LF_OK = 0;
     public static final int LF_FAIL = 1;
     public static final int LF_E_PRODUCT_ID = 40;
@@ -161,4 +199,11 @@ public class LexFloatClientException extends Exception {
     public static final int LF_E_ALLOWED_OFFLINE_FLOATING_CLIENTS_LIMIT_REACHED = 64;
     public static final int LF_E_WMIC = 65;
     public static final int LF_E_MACHINE_FINGERPRINT = 66;
+    public static final int LF_E_CLIENT = 70;
+    public static final int LF_E_SERVER = 71;
+    public static final int LF_E_SERVER_TIME_MODIFIED = 72;
+    public static final int LF_E_SERVER_LICENSE_NOT_ACTIVATED = 73;
+    public static final int LF_E_SERVER_LICENSE_EXPIRED = 74;
+    public static final int LF_E_SERVER_LICENSE_SUSPENDED = 75;
+    public static final int LF_E_SERVER_LICENSE_GRACE_PERIOD_OVER = 76;
 }
