@@ -61,7 +61,7 @@ public class LexFloatClient {
      * after SetHostProductId() function in case the application allows borrowing of licenses 
      * or system wide activation.
      *
-     * @param flags depending on your application's requirements, choose one of 
+     * @param flag depending on your application's requirements, choose one of 
      * the following values: LF_USER, LF_ALL_USERS.
      * <ul>
      * <li> LF_USER: This flag indicates that the application does not require admin or root permissions to run.</li>
@@ -69,10 +69,10 @@ public class LexFloatClient {
      * </ul>
      * @throws LexFloatClientException
      */
-    public static void SetPermissionFlag(int flags) throws LexFloatClientException {
+    public static void SetPermissionFlag(int flag) throws LexFloatClientException {
         int status;
-        status = Platform.isWindows() ? LexFloatClientNative.SetPermissionFlag(flags)
-                : LexFloatClientNative.SetPermissionFlag(flags);
+        status = Platform.isWindows() ? LexFloatClientNative.SetPermissionFlag(flag)
+                : LexFloatClientNative.SetPermissionFlag(flag);
         if (LF_OK != status) {
             throw new LexFloatClientException(status);
         }
