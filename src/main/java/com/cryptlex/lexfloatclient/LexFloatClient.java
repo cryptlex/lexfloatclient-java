@@ -142,7 +142,8 @@ public class LexFloatClient {
 
     /**
      * Gets the host configuration.
-     *
+     * This function sends a network request to LexFloatServer to get the configuration details.
+     
      * @return Returns host configuration.
      * @throws LexFloatClientException
      * @throws UnsupportedEncodingException
