@@ -320,6 +320,49 @@ public class LexFloatClientException extends Exception {
      */
     public static final int LF_E_IP = 60;
 
+
+    /*
+    * CODE: LF_E_INVALID_PERMISSION_FLAG
+    * 
+    * MESSAGE: Invalid permission flag.
+    */
+    public static final int LF_E_INVALID_PERMISSION_FLAG = 61;
+
+    /*
+    * CODE: LF_E_OFFLINE_FLOATING_LICENSE_NOT_ALLOWED
+    * 
+    * MESSAGE: Offline floating license is not allowed for per-instance leasing strategy.
+    */
+    public static final int LF_E_OFFLINE_FLOATING_LICENSE_NOT_ALLOWED = 62;
+
+    /*
+    * CODE: LF_E_MAX_OFFLINE_LEASE_DURATION_EXCEEDED
+    * 
+    * MESSAGE: Maximum offline lease duration exceeded.
+    */
+    public static final int LF_E_MAX_OFFLINE_LEASE_DURATION_EXCEEDED = 63;
+
+    /*
+    * CODE: LF_E_ALLOWED_OFFLINE_FLOATING_CLIENTS_LIMIT_REACHED
+    * 
+    * MESSAGE: Allowed offline floating clients limit reached.
+    */
+    public static final int LF_E_ALLOWED_OFFLINE_FLOATING_CLIENTS_LIMIT_REACHED = 64;
+
+    /*
+    * CODE: LF_E_WMIC
+    * 
+    * MESSAGE: Fingerprint couldn't be generated because Windows Management Instrumentation (WMI) service has been disabled.
+    */
+    public static final int LF_E_WMIC = 65;
+
+    /*
+    * CODE: LF_E_MACHINE_FINGERPRINT
+    * 
+    * MESSAGE: Machine fingerprint has changed since activation.
+    */
+    public static final int LF_E_MACHINE_FINGERPRINT = 66;
+
     /*
      * CODE: LF_E_CLIENT
      * 
