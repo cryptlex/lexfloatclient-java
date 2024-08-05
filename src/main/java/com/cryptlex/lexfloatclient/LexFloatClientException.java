@@ -20,7 +20,6 @@ public class LexFloatClientException extends Exception {
     public static String getErrorMessage(int errorCode) {
         String message;
         switch (errorCode) {
-            // Existing error codes
             case LF_E_PRODUCT_ID:
                 message = "The product id is incorrect.";
                 break;
