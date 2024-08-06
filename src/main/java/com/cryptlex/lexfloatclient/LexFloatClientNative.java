@@ -32,7 +32,7 @@ public class LexFloatClientNative implements Library {
 
     public static native int SetHostUrl(WString hostUrl);
 
-    public static native int SetPermissionFlag(int flag);
+    public static native int SetPermissionFlag(int flags);
 
     public static native int SetFloatingLicenseCallback(CallbackType callback);
 
