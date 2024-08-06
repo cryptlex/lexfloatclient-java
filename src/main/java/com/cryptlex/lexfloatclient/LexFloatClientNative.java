@@ -20,6 +20,9 @@ public class LexFloatClientNative implements Library {
     public interface CallbackType extends Callback {
         void invoke(int status);
     }
+    /* Permission Flags */
+    public static final int LF_USER = 10;
+    public static final int LF_ALL_USERS = 11;
 
     public static native int SetHostProductId(String productId);
 
@@ -29,11 +32,19 @@ public class LexFloatClientNative implements Library {
 
     public static native int SetHostUrl(WString hostUrl);
 
+    public static native int SetPermissionFlag(int flags);
+
     public static native int SetFloatingLicenseCallback(CallbackType callback);
 
     public static native int SetFloatingClientMetadata(String key, String value);
 
     public static native int SetFloatingClientMetadata(WString key, WString value);
+
+    public static native int GetHostConfigInternal(ByteBuffer hostConfig, int length);
+
+    public static native int GetHostConfigInternal(CharBuffer hostConfig, int length);
+
+    public static native int GetFloatingClientLeaseExpiryDate(IntByReference expiryDate);
 
     public static native int GetFloatingClientLibraryVersion(ByteBuffer libraryVersion, int length);
 
@@ -60,10 +71,20 @@ public class LexFloatClientNative implements Library {
     public static native int GetHostLicenseMeterAttribute(WString name, IntByReference allowedUses, IntByReference totalUses, IntByReference grossUses);
 
     public static native int GetHostLicenseExpiryDate(IntByReference expiryDate);
-    
+
+    public static native int GetFloatingClientMetadata(String key, ByteBuffer value, int length);
+
+    public static native int GetFloatingClientMetadata(WString key, CharBuffer value, int length);
+
+    public static native int GetFloatingLicenseMode(ByteBuffer mode, int length);
+
+    public static native int GetFloatingLicenseMode(CharBuffer mode, int length);
+
     public static native int GetFloatingClientMeterAttributeUses(String name, IntByReference uses);
     
     public static native int GetFloatingClientMeterAttributeUses(WString name, IntByReference uses);
+
+    public static native int RequestOfflineFloatingLicense(int leaseDuration);
 
     public static native int RequestFloatingLicense();
 
