@@ -114,6 +114,24 @@ public class LexFloatClient {
     }
 
     /**
+     * Gets the lease expiry date timestamp of the floating client.
+     *
+     * @return Returns the timestamp
+     * @throws LexFloatClientException
+     */
+    public static int GetFloatingClientLeaseExpiryDate() throws LexFloatClientException {
+        int status;
+        IntByReference expiryDate = new IntByReference(0);
+        status = LexFloatClientNative.GetFloatingClientLeaseExpiryDate(expiryDate);
+        switch (status) {
+            case LF_OK:
+                return expiryDate.getValue();
+            default:
+                throw new LexFloatClientException(status);
+        }
+    }
+
+    /**
      * Gets the version of this library.
      * 
      * @return libraryVersion - Returns the library version.
