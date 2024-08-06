@@ -337,7 +337,7 @@ public class LexFloatClientException extends Exception {
     *
     * MESSAGE: Request blocked due to untrusted proxy.
     */
-    public static final int  LF_E_PROXY_NOT_TRUSTED = 67,
+    public static final int LF_E_PROXY_NOT_TRUSTED = 67;
 
     /*
      * CODE: LF_E_CLIENT
