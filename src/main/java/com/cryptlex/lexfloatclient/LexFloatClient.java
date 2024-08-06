@@ -116,6 +116,24 @@ public class LexFloatClient {
     }
 
     /**
+     * Gets the lease expiry date timestamp of the floating client.
+     *
+     * @return Returns the timestamp
+     * @throws LexFloatClientException
+     */
+    public static int GetFloatingClientLeaseExpiryDate() throws LexFloatClientException {
+        int status;
+        IntByReference expiryDate = new IntByReference(0);
+        status = LexFloatClientNative.GetFloatingClientLeaseExpiryDate(expiryDate);
+        switch (status) {
+            case LF_OK:
+                return expiryDate.getValue();
+            default:
+                throw new LexFloatClientException(status);
+        }
+    }
+
+    /**
      * Gets the version of this library.
      * 
      * @return libraryVersion - Returns the library version.
@@ -294,6 +312,32 @@ public class LexFloatClient {
         }
         throw new LexFloatClientException(status);
     }
+
+    /**
+     * Get the value of the license metadata field associated with the LexFloatServer license.
+     *
+     * @param key key of the metadata field whose value you want to get
+     * @return Returns the metadata key value
+     * @throws LexFloatClientException
+     * @throws UnsupportedEncodingException
+     */
+    public static String GetFloatingClientMetadata(String key) throws LexFloatClientException, UnsupportedEncodingException {
+        int status;
+        if (Platform.isWindows()) {
+            CharBuffer buffer = CharBuffer.allocate(256);
+            status = LexFloatClientNative.GetFloatingClientMetadata(new WString(key), buffer, 256);
+            if (LF_OK == status) {
+                return buffer.toString().trim();
+            }
+        } else {
+            ByteBuffer buffer = ByteBuffer.allocate(256);
+            status = LexFloatClientNative.GetFloatingClientMetadata(key, buffer, 256);
+            if (LF_OK == status) {
+                return new String(buffer.array(), "UTF-8");
+            }
+        }
+        throw new LexFloatClientException(status);
+    }
     
     /**
      * Gets the license meter attribute allowed uses and total uses associated 
@@ -343,6 +387,31 @@ public class LexFloatClient {
     }
 
     /**
+     * Gets the mode of the floating license (online or offline).
+     * 
+     * @return mode - Returns the floating license mode.
+     * @throws LexFloatClientException
+     * @throws UnsupportedEncodingException
+     */
+    public static String GetFloatingLicenseMode() throws LexFloatClientException, UnsupportedEncodingException {
+        int status;
+        if (Platform.isWindows()) {
+            CharBuffer buffer = CharBuffer.allocate(256);
+            status = LexFloatClientNative.GetFloatingLicenseMode(buffer, 256);
+            if (LF_OK == status) {
+                return buffer.toString().trim();
+            }
+        } else {
+            ByteBuffer buffer = ByteBuffer.allocate(256);
+            status = LexFloatClientNative.GetFloatingLicenseMode(buffer, 256);
+            if (LF_OK == status) {
+                return new String(buffer.array(), "UTF-8").trim();
+            }
+        }
+        throw new LexFloatClientException(status);
+    }
+
+    /**
      * Gets the meter attribute uses consumed by the floating client.
      *
      * @param name name of the meter attribute
@@ -367,6 +436,21 @@ public class LexFloatClient {
         throw new LexFloatClientException(status);
     }
 
+    /**
+     * Sends the request to lease the license from the LexFloatServer for offline usage.
+     * The maximum value of lease duration is configured in the config.yml of LexFloatServer.
+     *
+     * @param leaseDuration value of the lease duration.
+     * @throws LexFloatClientException
+     */
+    public static void RequestOfflineFloatingLicense(int leaseDuration) throws LexFloatClientException {
+        int status;
+        status = LexFloatClientNative.RequestOfflineFloatingLicense(leaseDuration);
+        if (LF_OK != status) {
+            throw new LexFloatClientException(status);
+        }
+    }
+    
     /**
      * Sends the request to lease the license from the LexFloatServer
      *
