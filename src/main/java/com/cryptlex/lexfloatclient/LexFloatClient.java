@@ -168,7 +168,7 @@ public class LexFloatClient {
      */
     public static HostConfig GetHostConfig() throws LexFloatClientException, UnsupportedEncodingException {
         int status;
-        int bufferSize = 4096;
+        int bufferSize = 1024;
         if (Platform.isWindows()) {
             CharBuffer buffer = CharBuffer.allocate(bufferSize);
             status = LexFloatClientNative.GetHostConfigInternal(buffer, bufferSize);
