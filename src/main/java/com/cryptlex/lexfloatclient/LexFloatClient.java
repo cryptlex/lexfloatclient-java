@@ -8,6 +8,8 @@ import java.io.UnsupportedEncodingException;
 import com.sun.jna.ptr.IntByReference;
 import com.sun.jna.ptr.LongByReference;
 import java.math.BigInteger;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,6 +60,28 @@ public class LexFloatClient {
         int status;
         status = Platform.isWindows() ? LexFloatClientNative.SetHostUrl(new WString(hostUrl))
                 : LexFloatClientNative.SetHostUrl(hostUrl);
+        if (LF_OK != status) {
+            throw new LexFloatClientException(status);
+        }
+    }
+
+    /**
+     * Sets the permission flag. This function must be called on every start of your program 
+     * after SetHostProductId() function in case the application allows borrowing of licenses 
+     * or system wide activation.
+     *
+     * @param flag depending on your application's requirements, choose one of 
+     * the following values: LF_USER, LF_ALL_USERS.
+     * <ul>
+     * <li> LF_USER: This flag indicates that the application does not require admin or root permissions to run.</li>
+     * <li> LF_ALL_USERS: This flag is specifically designed for Windows and should be used for system-wide activations.</li>
+     * </ul>
+     * @throws LexFloatClientException
+     */
+    public static void SetPermissionFlag(int flag) throws LexFloatClientException {
+        int status;
+        status = LexFloatClientNative.SetPermissionFlag(flag)
+                
         if (LF_OK != status) {
             throw new LexFloatClientException(status);
         }
@@ -121,6 +145,24 @@ public class LexFloatClient {
     }
 
     /**
+     * Gets the lease expiry date timestamp of the floating client.
+     *
+     * @return Returns the timestamp
+     * @throws LexFloatClientException
+     */
+    public static int GetFloatingClientLeaseExpiryDate() throws LexFloatClientException {
+        int status;
+        IntByReference expiryDate = new IntByReference(0);
+        status = LexFloatClientNative.GetFloatingClientLeaseExpiryDate(expiryDate);
+        switch (status) {
+            case LF_OK:
+                return expiryDate.getValue();
+            default:
+                throw new LexFloatClientException(status);
+        }
+    }
+
+    /**
      * Gets the version of this library.
      * 
      * @return libraryVersion - Returns the library version.
@@ -140,6 +182,53 @@ public class LexFloatClient {
             status = LexFloatClientNative.GetFloatingClientLibraryVersion(buffer, 256);
             if (LF_OK == status) {
                 return new String(buffer.array(), "UTF-8").trim();
+            }
+        }
+        throw new LexFloatClientException(status);
+    }
+
+    /**
+     * Gets the host configuration.
+     * This function sends a network request to LexFloatServer to get the configuration details.
+     
+     * @return Returns host configuration.
+     * @throws LexFloatClientException
+     * @throws UnsupportedEncodingException
+     */
+    public static HostConfig GetHostConfig() throws LexFloatClientException, UnsupportedEncodingException {
+        int status;
+        int bufferSize = 1024;
+        if (Platform.isWindows()) {
+            CharBuffer buffer = CharBuffer.allocate(bufferSize);
+            status = LexFloatClientNative.GetHostConfigInternal(buffer, bufferSize);
+            if (LF_OK == status) {
+                String hostConfigJson = buffer.toString().trim();
+                if (!hostConfigJson.isEmpty()) {
+                    HostConfig hostConfig = null;
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    try {
+                        hostConfig = objectMapper.readValue(hostConfigJson, HostConfig.class);
+                    } catch (JsonProcessingException e) {}
+                    return hostConfig;
+                } else {
+                    return null;
+                } 
+            }
+        } else {
+            ByteBuffer buffer = ByteBuffer.allocate(bufferSize);
+            status = LexFloatClientNative.GetHostConfigInternal(buffer, bufferSize);
+            if (LF_OK == status) {
+                String hostConfigJson = new String(buffer.array(), "UTF-8").trim();
+                if (!hostConfigJson.isEmpty()) {
+                    HostConfig hostConfig = null;
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    try {
+                        hostConfig = objectMapper.readValue(hostConfigJson, HostConfig.class);
+                    } catch (JsonProcessingException e) {}
+                    return hostConfig;
+                } else {
+                    return null;
+                } 
             }
         }
         throw new LexFloatClientException(status);
@@ -252,6 +341,32 @@ public class LexFloatClient {
         }
         throw new LexFloatClientException(status);
     }
+
+    /**
+     * Get the value of the license metadata field associated with the LexFloatServer license.
+     *
+     * @param key key of the metadata field whose value you want to get
+     * @return Returns the metadata key value
+     * @throws LexFloatClientException
+     * @throws UnsupportedEncodingException
+     */
+    public static String GetFloatingClientMetadata(String key) throws LexFloatClientException, UnsupportedEncodingException {
+        int status;
+        if (Platform.isWindows()) {
+            CharBuffer buffer = CharBuffer.allocate(256);
+            status = LexFloatClientNative.GetFloatingClientMetadata(new WString(key), buffer, 256);
+            if (LF_OK == status) {
+                return buffer.toString().trim();
+            }
+        } else {
+            ByteBuffer buffer = ByteBuffer.allocate(256);
+            status = LexFloatClientNative.GetFloatingClientMetadata(key, buffer, 256);
+            if (LF_OK == status) {
+                return new String(buffer.array(), "UTF-8");
+            }
+        }
+        throw new LexFloatClientException(status);
+    }
     
     /**
      * Gets the license meter attribute allowed uses and total uses associated 
@@ -302,6 +417,31 @@ public class LexFloatClient {
     }
 
     /**
+     * Gets the mode of the floating license (online or offline).
+     * 
+     * @return mode - Returns the floating license mode.
+     * @throws LexFloatClientException
+     * @throws UnsupportedEncodingException
+     */
+    public static String GetFloatingLicenseMode() throws LexFloatClientException, UnsupportedEncodingException {
+        int status;
+        if (Platform.isWindows()) {
+            CharBuffer buffer = CharBuffer.allocate(256);
+            status = LexFloatClientNative.GetFloatingLicenseMode(buffer, 256);
+            if (LF_OK == status) {
+                return buffer.toString().trim();
+            }
+        } else {
+            ByteBuffer buffer = ByteBuffer.allocate(256);
+            status = LexFloatClientNative.GetFloatingLicenseMode(buffer, 256);
+            if (LF_OK == status) {
+                return new String(buffer.array(), "UTF-8").trim();
+            }
+        }
+        throw new LexFloatClientException(status);
+    }
+
+    /**
      * Gets the meter attribute uses consumed by the floating client.
      *
      * @param name name of the meter attribute
@@ -326,6 +466,21 @@ public class LexFloatClient {
         throw new LexFloatClientException(status);
     }
 
+    /**
+     * Sends the request to lease the license from the LexFloatServer for offline usage.
+     * The maximum value of lease duration is configured in the config.yml of LexFloatServer.
+     *
+     * @param leaseDuration value of the lease duration.
+     * @throws LexFloatClientException
+     */
+    public static void RequestOfflineFloatingLicense(int leaseDuration) throws LexFloatClientException {
+        int status;
+        status = LexFloatClientNative.RequestOfflineFloatingLicense(leaseDuration);
+        if (LF_OK != status) {
+            throw new LexFloatClientException(status);
+        }
+    }
+    
     /**
      * Sends the request to lease the license from the LexFloatServer
      *
@@ -367,6 +522,8 @@ public class LexFloatClient {
             case LF_OK:
                 return true;
             case LexFloatClientException.LF_E_NO_LICENSE:
+                return false;
+            case LexFloatClientException.LF_FAIL:
                 return false;
             default:
                 throw new LexFloatClientException(status);

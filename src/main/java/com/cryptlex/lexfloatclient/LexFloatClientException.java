@@ -75,10 +75,31 @@ public class LexFloatClientException extends Exception {
             message = "No product version is linked with the license.";
             break;
         case LF_E_FEATURE_FLAG_NOT_FOUND:
-            message = "The product version feature flag does not exist.";
+            message = "The product version feature flag does not exist."; 
             break;
         case LF_E_IP:
             message = "IP address is not allowed.";
+            break;
+        case LF_E_SYSTEM_PERMISSION:
+            message = "Insufficient system permissions.";
+            break;
+        case LF_E_INVALID_PERMISSION_FLAG:
+            message = "Invalid permission flag.";
+            break;
+        case LF_E_OFFLINE_FLOATING_LICENSE_NOT_ALLOWED:
+            message = "Offline floating license is not allowed for per-instance leasing strategy.";
+            break;
+        case LF_E_MAX_OFFLINE_LEASE_DURATION_EXCEEDED:
+            message = "Maximum offline lease duration exceeded.";
+            break;
+        case LF_E_ALLOWED_OFFLINE_FLOATING_CLIENTS_LIMIT_REACHED:
+            message = "Allowed offline floating clients limit reached.";
+            break;
+        case LF_E_WMIC:
+            message = "Fingerprint couldn't be generated because Windows Management Instrumentation (WMI) service has been disabled.";
+            break;
+        case LF_E_MACHINE_FINGERPRINT:
+            message = "Machine fingerprint has changed since activation.";
             break;
         case LF_E_CLIENT:
             message = "Client error.";
@@ -101,13 +122,14 @@ public class LexFloatClientException extends Exception {
         case LF_E_SERVER_LICENSE_GRACE_PERIOD_OVER:
             message = "The grace period for server license is over.";
             break;
+        case LF_E_PROXY_NOT_TRUSTED:
+            message = "Request blocked due to untrusted proxy.";
+            break;
         default:
             message = "Unknown error!";
-
         }
         return message;
     }
-
     /*
      * CODE: LF_OK
      * 
@@ -245,17 +267,22 @@ public class LexFloatClientException extends Exception {
 
     /*
      * CODE: LF_E_PRODUCT_VERSION_NOT_LINKED
-     *
+     * 
      * MESSAGE: No product version is linked with the license.
      */
     public static final int LF_E_PRODUCT_VERSION_NOT_LINKED = 57;
 
     /*
      * CODE: LF_E_FEATURE_FLAG_NOT_FOUND
-     *
+     * 
      * MESSAGE: The product version feature flag does not exist.
      */
     public static final int LF_E_FEATURE_FLAG_NOT_FOUND = 58;
+    
+    /*
+     * Insufficient system permissions.
+    */
+    public static final int LF_E_SYSTEM_PERMISSION = 59;
     
     /*
      * CODE: LF_E_IP
@@ -263,6 +290,54 @@ public class LexFloatClientException extends Exception {
      * MESSAGE: IP address is not allowed.
      */
     public static final int LF_E_IP = 60;
+
+    /*
+    * CODE: LF_E_INVALID_PERMISSION_FLAG
+    * 
+    * MESSAGE: Invalid permission flag.
+    */
+    public static final int LF_E_INVALID_PERMISSION_FLAG = 61;
+
+    /*
+    * CODE: LF_E_OFFLINE_FLOATING_LICENSE_NOT_ALLOWED
+    * 
+    * MESSAGE: Offline floating license is not allowed for per-instance leasing strategy.
+    */
+    public static final int LF_E_OFFLINE_FLOATING_LICENSE_NOT_ALLOWED = 62;
+
+    /*
+    * CODE: LF_E_MAX_OFFLINE_LEASE_DURATION_EXCEEDED
+    * 
+    * MESSAGE: Maximum offline lease duration exceeded.
+    */
+    public static final int LF_E_MAX_OFFLINE_LEASE_DURATION_EXCEEDED = 63;
+
+    /*
+    * CODE: LF_E_ALLOWED_OFFLINE_FLOATING_CLIENTS_LIMIT_REACHED
+    * 
+    * MESSAGE: Allowed offline floating clients limit reached.
+    */
+    public static final int LF_E_ALLOWED_OFFLINE_FLOATING_CLIENTS_LIMIT_REACHED = 64;
+
+    /*
+    * CODE: LF_E_WMIC
+    * 
+    * MESSAGE: Fingerprint couldn't be generated because Windows Management Instrumentation (WMI) service has been disabled.
+    */
+    public static final int LF_E_WMIC = 65;
+
+    /*
+    * CODE: LF_E_MACHINE_FINGERPRINT
+    * 
+    * MESSAGE: Machine fingerprint has changed since activation.
+    */
+    public static final int LF_E_MACHINE_FINGERPRINT = 66;
+    /*
+    * CODE: LF_E_PROXY_NOT_TRUSTED
+    *
+    * MESSAGE: Request blocked due to untrusted proxy.
+    */
+    public static final int LF_E_PROXY_NOT_TRUSTED = 67;
 
     /*
      * CODE: LF_E_CLIENT
