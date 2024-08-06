@@ -59,6 +59,28 @@ public class LexFloatClient {
     }
 
     /**
+     * Sets the permission flag. This function must be called on every start of your program 
+     * after SetHostProductId() function in case the application allows borrowing of licenses 
+     * or system wide activation.
+     *
+     * @param flag depending on your application's requirements, choose one of 
+     * the following values: LF_USER, LF_ALL_USERS.
+     * <ul>
+     * <li> LF_USER: This flag indicates that the application does not require admin or root permissions to run.</li>
+     * <li> LF_ALL_USERS: This flag is specifically designed for Windows and should be used for system-wide activations.</li>
+     * </ul>
+     * @throws LexFloatClientException
+     */
+    public static void SetPermissionFlag(int flag) throws LexFloatClientException {
+        int status;
+        status = LexFloatClientNative.SetPermissionFlag(flag)
+                
+        if (LF_OK != status) {
+            throw new LexFloatClientException(status);
+        }
+    }
+
+    /**
      * Sets the renew license callback function.<br>
      * Whenever the license lease is about to expire, a renew request is sent to
      * the server. When the request completes, the license callback function
