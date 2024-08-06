@@ -35,6 +35,10 @@ public class LexFloatClientNative implements Library {
 
     public static native int SetFloatingClientMetadata(WString key, WString value);
 
+    public static native int GetHostConfigInternal(ByteBuffer hostConfig, int length);
+
+    public static native int GetHostConfigInternal(CharBuffer hostConfig, int length);
+
     public static native int GetFloatingClientLeaseExpiryDate(IntByReference expiryDate);
 
     public static native int GetFloatingClientLibraryVersion(ByteBuffer libraryVersion, int length);
