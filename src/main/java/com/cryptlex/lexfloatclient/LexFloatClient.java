@@ -114,6 +114,24 @@ public class LexFloatClient {
     }
 
     /**
+     * Gets the lease expiry date timestamp of the floating client.
+     *
+     * @return Returns the timestamp
+     * @throws LexFloatClientException
+     */
+    public static int GetFloatingClientLeaseExpiryDate() throws LexFloatClientException {
+        int status;
+        IntByReference expiryDate = new IntByReference(0);
+        status = LexFloatClientNative.GetFloatingClientLeaseExpiryDate(expiryDate);
+        switch (status) {
+            case LF_OK:
+                return expiryDate.getValue();
+            default:
+                throw new LexFloatClientException(status);
+        }
+    }
+
+    /**
      * Gets the version of this library.
      * 
      * @return libraryVersion - Returns the library version.
@@ -317,6 +335,31 @@ public class LexFloatClient {
             default:
                 throw new LexFloatClientException(status);
         }
+    }
+
+    /**
+     * Gets the mode of the floating license (online or offline).
+     * 
+     * @return mode - Returns the floating license mode.
+     * @throws LexFloatClientException
+     * @throws UnsupportedEncodingException
+     */
+    public static String GetFloatingLicenseMode() throws LexFloatClientException, UnsupportedEncodingException {
+        int status;
+        if (Platform.isWindows()) {
+            CharBuffer buffer = CharBuffer.allocate(256);
+            status = LexFloatClientNative.GetFloatingLicenseMode(buffer, 256);
+            if (LF_OK == status) {
+                return buffer.toString().trim();
+            }
+        } else {
+            ByteBuffer buffer = ByteBuffer.allocate(256);
+            status = LexFloatClientNative.GetFloatingLicenseMode(buffer, 256);
+            if (LF_OK == status) {
+                return new String(buffer.array(), "UTF-8").trim();
+            }
+        }
+        throw new LexFloatClientException(status);
     }
 
     /**
