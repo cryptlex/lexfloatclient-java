@@ -122,6 +122,9 @@ public class LexFloatClientException extends Exception {
         case LF_E_SERVER_LICENSE_GRACE_PERIOD_OVER:
             message = "The grace period for server license is over.";
             break;
+        case LF_E_PROXY_NOT_TRUSTED:
+            message = "Request blocked due to untrusted proxy.";
+            break;
         default:
             message = "Unknown error!";
         }
@@ -329,6 +332,12 @@ public class LexFloatClientException extends Exception {
     * MESSAGE: Machine fingerprint has changed since activation.
     */
     public static final int LF_E_MACHINE_FINGERPRINT = 66;
+    /*
+    * CODE: LF_E_PROXY_NOT_TRUSTED
+    *
+    * MESSAGE: Request blocked due to untrusted proxy.
+    */
+    public static final int  LF_E_PROXY_NOT_TRUSTED = 67,
 
     /*
      * CODE: LF_E_CLIENT
