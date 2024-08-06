@@ -388,6 +388,21 @@ public class LexFloatClient {
     }
 
     /**
+     * Sends the request to lease the license from the LexFloatServer for offline usage.
+     * The maximum value of lease duration is configured in the config.yml of LexFloatServer.
+     *
+     * @param leaseDuration value of the lease duration.
+     * @throws LexFloatClientException
+     */
+    public static void RequestOfflineFloatingLicense(int leaseDuration) throws LexFloatClientException {
+        int status;
+        status = LexFloatClientNative.RequestOfflineFloatingLicense(leaseDuration);
+        if (LF_OK != status) {
+            throw new LexFloatClientException(status);
+        }
+    }
+    
+    /**
      * Sends the request to lease the license from the LexFloatServer
      *
      * @throws LexFloatClientException
