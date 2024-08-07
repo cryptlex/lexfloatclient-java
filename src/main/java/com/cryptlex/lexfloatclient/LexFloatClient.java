@@ -80,7 +80,7 @@ public class LexFloatClient {
      */
     public static void SetPermissionFlag(int flag) throws LexFloatClientException {
         int status;
-        status = LexFloatClientNative.SetPermissionFlag(flag)
+        status = LexFloatClientNative.SetPermissionFlag(flag);
                 
         if (LF_OK != status) {
             throw new LexFloatClientException(status);
