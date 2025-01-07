@@ -6,6 +6,7 @@ curl -O ${BASE_URL}/${VERSION}/LexFloatClient-Win.zip
 unzip LexFloatClient-Win.zip -d ./tmp/windows
 cp ./tmp/windows/libs/vc14/x64/LexFloatClient.dll src/main/resources/win32-x86-64/
 cp ./tmp/windows/libs/vc14/x86/LexFloatClient.dll src/main/resources/win32-x86/
+cp ./tmp/windows/libs/vc17/arm64/LexFloatClient.dll src/main/resources/win32-aarch64/
 
 mkdir -p tmp/macos
 curl -O ${BASE_URL}/${VERSION}/LexFloatClient-Mac.zip
