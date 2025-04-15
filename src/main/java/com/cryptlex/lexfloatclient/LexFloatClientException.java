@@ -101,6 +101,12 @@ public class LexFloatClientException extends Exception {
         case LF_E_MACHINE_FINGERPRINT:
             message = "Machine fingerprint has changed since activation.";
             break;
+        case LF_E_ENTITLEMENT_SET_NOT_LINKED:
+            message = "No entitlement set is linked to the license.";
+            break;
+        case LF_E_FEATURE_ENTITLEMENT_NOT_FOUND:
+            message = "The feature entitlement does not exist.";
+            break;
         case LF_E_CLIENT:
             message = "Client error.";
             break;
@@ -280,8 +286,10 @@ public class LexFloatClientException extends Exception {
     public static final int LF_E_FEATURE_FLAG_NOT_FOUND = 58;
     
     /*
-     * Insufficient system permissions.
-    */
+     * CODE: LF_E_SYSTEM_PERMISSION
+     * 
+     * MESSAGE: Insufficient system permissions.
+     */
     public static final int LF_E_SYSTEM_PERMISSION = 59;
     
     /*
@@ -292,52 +300,66 @@ public class LexFloatClientException extends Exception {
     public static final int LF_E_IP = 60;
 
     /*
-    * CODE: LF_E_INVALID_PERMISSION_FLAG
-    * 
-    * MESSAGE: Invalid permission flag.
-    */
+     * CODE: LF_E_INVALID_PERMISSION_FLAG
+     * 
+     * MESSAGE: Invalid permission flag.
+     */
     public static final int LF_E_INVALID_PERMISSION_FLAG = 61;
 
     /*
-    * CODE: LF_E_OFFLINE_FLOATING_LICENSE_NOT_ALLOWED
-    * 
-    * MESSAGE: Offline floating license is not allowed for per-instance leasing strategy.
-    */
+     * CODE: LF_E_OFFLINE_FLOATING_LICENSE_NOT_ALLOWED
+     * 
+     * MESSAGE: Offline floating license is not allowed for per-instance leasing strategy.
+     */
     public static final int LF_E_OFFLINE_FLOATING_LICENSE_NOT_ALLOWED = 62;
 
     /*
-    * CODE: LF_E_MAX_OFFLINE_LEASE_DURATION_EXCEEDED
-    * 
-    * MESSAGE: Maximum offline lease duration exceeded.
-    */
+     * CODE: LF_E_MAX_OFFLINE_LEASE_DURATION_EXCEEDED
+     * 
+     * MESSAGE: Maximum offline lease duration exceeded.
+     */
     public static final int LF_E_MAX_OFFLINE_LEASE_DURATION_EXCEEDED = 63;
 
     /*
-    * CODE: LF_E_ALLOWED_OFFLINE_FLOATING_CLIENTS_LIMIT_REACHED
-    * 
-    * MESSAGE: Allowed offline floating clients limit reached.
-    */
+     * CODE: LF_E_ALLOWED_OFFLINE_FLOATING_CLIENTS_LIMIT_REACHED
+     * 
+     * MESSAGE: Allowed offline floating clients limit reached.
+     */
     public static final int LF_E_ALLOWED_OFFLINE_FLOATING_CLIENTS_LIMIT_REACHED = 64;
 
     /*
-    * CODE: LF_E_WMIC
-    * 
-    * MESSAGE: Fingerprint couldn't be generated because Windows Management Instrumentation (WMI) service has been disabled.
-    */
+     * CODE: LF_E_WMIC
+     * 
+     * MESSAGE: Fingerprint couldn't be generated because Windows Management Instrumentation (WMI) service has been disabled.
+     */
     public static final int LF_E_WMIC = 65;
 
     /*
-    * CODE: LF_E_MACHINE_FINGERPRINT
-    * 
-    * MESSAGE: Machine fingerprint has changed since activation.
-    */
+     * CODE: LF_E_MACHINE_FINGERPRINT
+     * 
+     * MESSAGE: Machine fingerprint has changed since activation.
+     */
     public static final int LF_E_MACHINE_FINGERPRINT = 66;
     /*
-    * CODE: LF_E_PROXY_NOT_TRUSTED
-    *
-    * MESSAGE: Request blocked due to untrusted proxy.
-    */
+     * CODE: LF_E_PROXY_NOT_TRUSTED
+     *
+     * MESSAGE: Request blocked due to untrusted proxy.
+     */
     public static final int LF_E_PROXY_NOT_TRUSTED = 67;
+
+    /*
+     * CODE: LF_E_ENTITLEMENT_SET_NOT_LINKED
+     *
+     * MESSAGE: No entitlement set is linked to the license.
+     */
+    public static final int LF_E_ENTITLEMENT_SET_NOT_LINKED = 68;
+
+    /*
+     * CODE: LF_E_FEATURE_ENTITLEMENT_NOT_FOUND
+     *
+     * MESSAGE: The feature entitlement does not exist.
+     */
+    public static final int LF_E_FEATURE_ENTITLEMENT_NOT_FOUND = 69;
 
     /*
      * CODE: LF_E_CLIENT
