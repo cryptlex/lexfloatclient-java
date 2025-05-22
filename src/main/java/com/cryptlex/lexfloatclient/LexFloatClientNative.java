@@ -63,6 +63,22 @@ public class LexFloatClientNative implements Library {
     
     public static native int GetHostProductVersionFeatureFlag(WString name, IntByReference enabled, CharBuffer data, int length);
 
+    public static native int GetHostLicenseEntitlementSetName(ByteBuffer name, int length);
+
+    public static native int GetHostLicenseEntitlementSetName(CharBuffer name, int length);
+
+    public static native int GetHostLicenseEntitlementSetDisplayName(ByteBuffer displayName, int length);
+
+    public static native int GetHostLicenseEntitlementSetDisplayName(CharBuffer displayName, int length);
+
+    public static native int GetHostFeatureEntitlementsInternal(ByteBuffer featureEntitlementsJson, int length);
+
+    public static native int GetHostFeatureEntitlementsInternal(CharBuffer featureEntitlementsJson, int length);
+    
+    public static native int GetHostFeatureEntitlementInternal(String featureName, ByteBuffer featureEntitlementJson, int length);
+
+    public static native int GetHostFeatureEntitlementInternal(WString featureName, CharBuffer featureEntitlementJson, int length);
+
     public static native int GetHostLicenseMetadata(String key, ByteBuffer value, int length);
 
     public static native int GetHostLicenseMetadata(WString key, CharBuffer value, int length);
