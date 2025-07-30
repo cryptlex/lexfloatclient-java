@@ -464,6 +464,33 @@ public class LexFloatClient {
     }
     
     /**
+     * Get the value of the field associated with the
+     * LexFloatServer product metadata key
+     *
+     * @param key key of the metadata field whose value you want to get
+     * @return Returns the metadata key value
+     * @throws LexFloatClientException
+     * @throws UnsupportedEncodingException
+     */
+    public static String GetHostProductMetadata(String key) throws LexFloatClientException, UnsupportedEncodingException {
+        int status;
+        if (Platform.isWindows()) {
+            CharBuffer buffer = CharBuffer.allocate(4096);
+            status = LexFloatClientNative.GetHostProductMetadata(new WString(key), buffer, 4096);
+            if (LF_OK == status) {
+                return buffer.toString().trim();
+            }
+        } else {
+            ByteBuffer buffer = ByteBuffer.allocate(4096);
+            status = LexFloatClientNative.GetHostProductMetadata(key, buffer, 4096);
+            if (LF_OK == status) {
+                return new String(buffer.array(), "UTF-8");
+            }
+        }
+        throw new LexFloatClientException(status);
+    }
+
+    /**
      * Get the value of the license metadata field associated with the
      * LexFloatServer license key
      *
