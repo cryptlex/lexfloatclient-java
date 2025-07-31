@@ -464,8 +464,7 @@ public class LexFloatClient {
     }
     
     /**
-     * Get the value of the field associated with the
-     * LexFloatServer product metadata key
+     * Gets the value of the product metadata.
      *
      * @param key key of the metadata field whose value you want to get
      * @return Returns the metadata key value
