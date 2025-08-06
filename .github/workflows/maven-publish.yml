@@ -47,6 +47,9 @@ jobs:
       with:
          distribution: 'adopt'
          java-version: '11'
+
+    - name: Check Maven version
+      run: mvn -version
          
     - name: Update Version in pom.xml
       run: mvn -B versions:set -DnewVersion=${{ github.event.inputs.packageVersion }} -DgenerateBackupPoms=false
