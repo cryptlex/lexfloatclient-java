@@ -18,7 +18,7 @@
     </licenses>
 
     <organization>
-        <name>Cryptlex, LLC.</name>
+        <name>Cryptlex, LLP.</name>
         <url>https://cryptlex.com</url>
     </organization>
 
@@ -26,7 +26,7 @@
         <developer>
             <name>Cryptlex Team</name>
             <email>support@cryptlex.com</email>
-            <organization>Cryptlex, LLC.</organization>
+            <organization>Cryptlex, LLP.</organization>
             <organizationUrl>https://cryptlex.com</organizationUrl>
         </developer>
     </developers>
@@ -49,17 +49,6 @@
         <version>2.14.2</version>
         </dependency>
     </dependencies>
-
-    <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>ossrh</id>
-            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-    </distributionManagement>
 
     <properties>
         <revision>1.0.0</revision>
@@ -92,14 +81,15 @@
                     </plugin>
 
                     <plugin>
-                        <groupId>org.sonatype.plugins</groupId>
-                        <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>1.6.8</version>
+                        <groupId>org.sonatype.central</groupId>
+                        <artifactId>central-publishing-maven-plugin</artifactId>
+                        <version>0.8.0</version>
                         <extensions>true</extensions>
                         <configuration>
-                            <serverId>ossrh</serverId>
-                            <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
-                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                            <publishingServerId>central</publishingServerId>
+                            <autoPublish>true</autoPublish>
+                            <tokenAuth>true</tokenAuth>
+                            <waitUntil>published</waitUntil>
                         </configuration>
                     </plugin>
 
