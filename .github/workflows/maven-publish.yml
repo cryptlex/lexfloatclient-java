@@ -27,9 +27,6 @@ jobs:
 
     - name: Check Maven version
       run: mvn -version
-         
-    - name: Update Version in pom.xml
-      run: mvn -B versions:set -DnewVersion=${{ github.event.inputs.packageVersion }} -DgenerateBackupPoms=false
 
     - name: Publish to Central Portal
       run: mvn -B -e clean deploy -Pdeploy -Drevision=${{ github.event.inputs.packageVersion }}
