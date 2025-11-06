@@ -4,7 +4,7 @@
     <groupId>com.cryptlex.lexfloatclient</groupId>
     <artifactId>lexfloatclient</artifactId>
     <packaging>jar</packaging>
-    <version>${revision}</version>
+    <version>4.12.2</version>
     <name>LexFloatClient</name>
     <url>https://github.com/cryptlex/lexfloatclient-java</url>
     <description>LexFloatClient API wrapper for Java (floating licensing library).</description>
