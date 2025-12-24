@@ -15,4 +15,9 @@ public class HostFeatureEntitlement {
      * The value of the feature.
      */
     public String value;
+
+    /**
+     * The timestamp at which the license feature entitlement will expire.
+     */
+    public long expiresAt;
 }
