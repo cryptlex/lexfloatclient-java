@@ -375,6 +375,22 @@ public class LexFloatClient {
     }
 
     /**
+     * Gets the tier of the entitlement set associated with the LexFloatServer license.
+     *
+     * @return Returns the host license entitlement set tier.
+     * @throws LexFloatClientException
+     */
+    public static long GetHostLicenseEntitlementSetTier() throws LexFloatClientException {
+        int status;
+        LongByReference tier = new LongByReference(0);
+        status = LexFloatClientNative.GetHostLicenseEntitlementSetTier(tier);
+        if (LF_OK == status) {
+            return tier.getValue();
+        }
+        throw new LexFloatClientException(status);
+    }
+
+    /**
      * Gets the feature entitlements associated with the LexFloatServer license.
      * 
      * Feature entitlements can be linked directly to a license (license feature entitlements) 
