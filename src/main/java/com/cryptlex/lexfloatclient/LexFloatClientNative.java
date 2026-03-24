@@ -71,6 +71,8 @@ public class LexFloatClientNative implements Library {
 
     public static native int GetHostLicenseEntitlementSetDisplayName(CharBuffer displayName, int length);
 
+    public static native int GetHostLicenseEntitlementSetTier(LongByReference tier);
+
     public static native int GetHostFeatureEntitlementsInternal(ByteBuffer featureEntitlementsJson, int length);
 
     public static native int GetHostFeatureEntitlementsInternal(CharBuffer featureEntitlementsJson, int length);
