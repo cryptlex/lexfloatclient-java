@@ -128,6 +128,9 @@ public class LexFloatClientException extends Exception {
         case LF_E_SERVER_LICENSE_GRACE_PERIOD_OVER:
             message = "The grace period for server license is over.";
             break;
+        case LF_E_LEASE_EXCEEDS_SERVER_LICENSE_EXPIRY:
+            message = "Requested offline lease duration exceeds server license expiry date.";
+            break;
         case LF_E_PROXY_NOT_TRUSTED:
             message = "Request blocked due to untrusted proxy.";
             break;
@@ -410,4 +413,11 @@ public class LexFloatClientException extends Exception {
      * MESSAGE: The grace period for server license is over.
      */
     public static final int LF_E_SERVER_LICENSE_GRACE_PERIOD_OVER = 76;
+
+    /*
+     * CODE: LF_E_LEASE_EXCEEDS_SERVER_LICENSE_EXPIRY
+     * 
+     * MESSAGE: Requested offline lease duration exceeds server license expiry date.
+     */
+    public static final int LF_E_LEASE_EXCEEDS_SERVER_LICENSE_EXPIRY = 77;
 }
