@@ -12,9 +12,16 @@ public class HostFeatureEntitlement {
     public String featureDisplayName;
 
     /**
-     * The value of the feature.
+     * Effective value of the feature. Contains the overridden value if set at the license level;
+     * otherwise, the entitlement set value.
      */
     public String value;
+
+    /**
+     * Default value of the feature defined in the entitlement set; empty for features not inherited
+     * from an entitlement set.
+     */
+    public String baseValue;
 
     /**
      * The timestamp at which the license feature entitlement will expire.
